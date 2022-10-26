@@ -44,7 +44,7 @@ class BrandController extends Controller
     public function store(StoreBrandRequest $request)
     {
         if ($request->has('logo') && ($request->logo instanceof UploadedFile)) {
-            $logo = $this->uploadOne($request->logo, 'brands', '', time());
+            $logo = $this->uploadOne($request->logo, 'brands');
         }
 
         Brand::create([
@@ -102,7 +102,7 @@ class BrandController extends Controller
 
         return redirect()->route('brands.index')->with('toast_success', 'Update brand successfuly');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -111,12 +111,12 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-        // if ($request->has('logo') && ($request->logo instanceof UploadedFile)) {
-            if ($brand->logo != null) {
-                $this->deleteOne($brand->logo);
-            }
-            // dd($brand->logo);
-            // $logo = $this->uploadOne($request->logo, 'brands', '', time());
-        // }
+        if ($brand->logo != null) {
+            $this->deleteOne($brand->logo);
+        }
+        
+        $brand->delete();
+
+        return redirect()->route('brands.index')->with('toast_success', 'Delete brand successfuly');
     }
 }

@@ -23,11 +23,12 @@ trait UploadAble
         if (!$file) {
             return;
         }
-        $name = !is_null($filename) ? $filename : time();
+
+        $name = time() . "." . $file->getClientOriginalExtension();
 
         return $file->storeAs(
             $folder,
-            $name . "." . $file->getClientOriginalExtension(),
+            $name,
             $disk
         );
     }
@@ -38,7 +39,6 @@ trait UploadAble
      */
     public function deleteOne($path = null, $disk = 'public')
     {
-        // dd($disk);
         Storage::disk($disk)->delete($path);
     }
 }

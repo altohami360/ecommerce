@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Traits\UploadAble;
+use Illuminate\Http\UploadedFile;
 
 class CategoryController extends Controller
 {
+    use UploadAble;
+
     /**
      * Display a listing of the resource.
      *
@@ -40,8 +44,17 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        Category::create($request->validated());
+        $category = Category::create($request->validated());
 
+        if ($request->has('image') && ($request->logo instanceof UploadedFile)) {
+
+            $image = $this->uploadOne($request->file, 'categories');
+            $category->update([
+                'image' => $image
+            ]);
+
+        }
+    
         return redirect()->route('categories.index')->with('toast_success', 'Create Category Successfuly');
     }
 
