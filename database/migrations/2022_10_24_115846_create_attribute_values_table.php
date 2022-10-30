@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('attribute_id')->constrained('attributes')->cascadeOnDelete();
             $table->string('value');
-            $table->decimal('price', 2)->nullable();
+            // $table->decimal('price', 2)->nullable();
             $table->timestamps();
         });
     }

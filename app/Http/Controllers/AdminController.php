@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Repositories\AdminRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+
+    private $adminRepository;
+
+    public function __construct(AdminRepositoryInterface $adminRepository)
+    {
+        $this->adminRepository = $adminRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = Admin::all();
+        $admins = $this->adminRepository->all();
         return view('admin.admins.index', compact('admins'));
     }
 

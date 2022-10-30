@@ -18,7 +18,7 @@ trait UploadAble
      * @param null $filename
      * @return false|string
      */
-    public function uploadOne(UploadedFile $file, $folder = null, $disk = 'public', $filename = null)
+    public function uploadOne(UploadedFile $file, $folder = null, $disk = 'public')
     {
         if (!$file) {
             return;

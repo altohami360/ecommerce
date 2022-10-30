@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Repositories\CategoryRepositoryInterface;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 
 class CategoryController extends Controller
 {
     use UploadAble;
+
+    private $categoryRepository;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
 
     /**
      * Display a listing of the resource.
@@ -20,7 +28,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('parent')->get();
+        $categories = $this->categoryRepository->all();
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -32,7 +40,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::get(['id', 'name']);
+        $categories = $this->categoryRepository->all(['id', 'name']);
         return view('admin.categories.create', compact('categories'));
     }
 
@@ -44,18 +52,16 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
 
-        if ($request->has('image') && ($request->logo instanceof UploadedFile)) {
+        $category = $request->validated();
 
-            $image = $this->uploadOne($request->file, 'categories');
-            $category->update([
-                'image' => $image
-            ]);
-
+        if ($request->has('image') && ($request->image instanceof UploadedFile)) {
+            $category['image'] = $this->uploadOne($request->image, 'categories', 'public');
         }
-    
-        return redirect()->route('categories.index')->with('toast_success', 'Create Category Successfuly');
+
+        $this->categoryRepository->create($category);
+
+        return to_route('categories.index')->with('toast_success', 'Create Category Successfuly');
     }
 
     /**
@@ -77,7 +83,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $parent_categories = Category::get();
+        $parent_categories = $this->categoryRepository->all(['id', 'name']);
+
         return view('admin.categories.edit', compact('parent_categories', 'category'));
     }
 
@@ -90,10 +97,22 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        // dd($request->validated());
-        $category->update($request->validated());
+        $attribute = $request->validated();
 
-        return redirect()->route('categories.index')->with('toast_success', 'Update categorey Successfuly');
+        if ($request->has('image') && ($request->image instanceof UploadedFile)) {
+            
+            $attribute['image'] = $this->uploadOne($request->image, 'categories', 'public');
+
+            if ($category->image != null) {
+                $this->deleteOne($category->image);
+            }
+
+        }
+
+
+        $this->categoryRepository->update($category->id, $attribute);
+
+        return to_route('categories.index')->with('toast_success', 'Update categorey Successfuly');
     }
 
     /**
@@ -104,9 +123,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // dd($category);
-        $category->delete();
+        if ($category->image != null) {
+            $this->deleteOne($category->image);
+        }
 
-        return redirect()->route('categories.index')->with('toast_success', 'Delete categorey Successfuly');
+        $this->categoryRepository->delete($category->id);
+
+        return to_route('categories.index')->with('toast_success', 'Delete categorey Successfuly');
     }
 }

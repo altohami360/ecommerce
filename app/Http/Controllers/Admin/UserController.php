@@ -3,14 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Models\User;
+use App\Repositories\UserRepositoryInterface;
+use App\Traits\UploadAble;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 
 use function GuzzleHttp\Promise\all;
 
 class UserController extends Controller
 {
+
+    use UploadAble;
+
+    private $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +32,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::all();
+        $users = $this->userRepository->all();
 
         return view('admin.users.index', compact('users'));
     }
@@ -39,22 +53,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|confirmed',
-        ]);
+        $user = $request->validated();
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        if ($request->has('avatar') && ($request['avatar'] instanceof UploadedFile)) {
+            $user['avatar'] = $this->uploadOne($request->avatar, 'users', 'public');
+        }
 
-        return redirect()->route('users.index')->with('toast_success', 'Create User Succesfuly');
+        $this->userRepository->create($user);
+
+        return to_route('users.index')->with('toast_success', 'Create User Succesfuly');
     }
 
     /**
@@ -99,8 +108,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        $this->userRepository->delete($user->id);
 
-        return redirect()->route('users.index')->with('toast_success', 'Delete User Successfuly');
+        return to_route('users.index')->with('toast_success', 'Delete User Successfuly');
     }
 }

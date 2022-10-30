@@ -6,10 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Attribute\StoreAttributeRequest;
 use App\Http\Requests\Attribute\UpdateAttributeRequest;
 use App\Models\Attribute;
+use App\Repositories\AttributeRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
+
+    private $attributerepository;
+
+    public function __construct(AttributeRepositoryInterface $attributerepository)
+    {
+        $this->attributerepository = $attributerepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +26,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        $attributes = Attribute::all();
+        $attributes = $this->attributerepository->all();
         return view('admin.attributes.index', compact('attributes'));
     }
 
@@ -40,20 +49,9 @@ class AttributeController extends Controller
     public function store(StoreAttributeRequest $request)
     {
         // dd($request->validated());
-        Attribute::create($request->validated());
+        $this->attributerepository->create($request->validated());
 
-        return redirect()->route('attributes.index')->with('toast_success', 'Create Attribute Successufuly');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return to_route('attributes.index')->with('toast_success', 'Create Attribute Successufuly');
     }
 
     /**
@@ -76,9 +74,9 @@ class AttributeController extends Controller
      */
     public function update(UpdateAttributeRequest $request, Attribute $attribute)
     {
-        $attribute->update($request->validated());
-        
-        return redirect()->route('attributes.index')->with('toast_success', 'Update Attribute Successufuly');
+        $this->attributerepository->update($attribute->id, $request->validated());
+
+        return to_route('attributes.index')->with('toast_success', 'Update Attribute Successufuly');
     }
 
     /**
@@ -89,7 +87,7 @@ class AttributeController extends Controller
      */
     public function destroy(Attribute $attribute)
     {
-        $attribute->delete();
-        return redirect()->route('attributes.index')->with('toast_success', 'Delete Attribute Successufuly');
+        $this->attributerepository->delete($attribute->id);
+        return to_route('attributes.index')->with('toast_success', 'Delete Attribute Successufuly');
     }
 }

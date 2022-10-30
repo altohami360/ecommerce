@@ -10,7 +10,7 @@ class Attribute extends Model
     use HasFactory;
 
     protected $fillable = ['code' ,'name', 'frontend_type', 'is_filterable', 'is_required'];
-
+    
     /**
      * @var array
      */

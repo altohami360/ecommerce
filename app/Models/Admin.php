@@ -20,7 +20,7 @@ class Admin extends Authenticatable
        'email',
        'password',
        'avatar',
-   ];
+   ];   
 
    /**
     * The attributes that should be hidden for serialization.

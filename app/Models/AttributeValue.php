@@ -10,7 +10,7 @@ class AttributeValue extends Model
     use HasFactory;
 
     protected $fillable = [
-        'attribute_id', 'value', 'price'
+        'attribute_id', 'value'
     ];
 
     /**

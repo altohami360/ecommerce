@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Brand\StoreBrandRequest;
 use App\Http\Requests\Brand\UpdateBrandRequest;
 use App\Models\Brand;
+use App\Repositories\BrandRepositoryInterface;
 use App\Traits\UploadAble;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -14,6 +15,13 @@ class BrandController extends Controller
 {
     use UploadAble;
 
+    private $brandRepository;
+
+    public function __construct(BrandRepositoryInterface $brandRepository)
+    {
+        $this->brandRepository = $brandRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +29,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::all();
+        // dd(truee);
+        $brands = $this->brandRepository->all();
         return view('admin.brands.index', compact('brands'));
     }
 
@@ -43,16 +52,15 @@ class BrandController extends Controller
      */
     public function store(StoreBrandRequest $request)
     {
+        $brand = $request->validated();
+
         if ($request->has('logo') && ($request->logo instanceof UploadedFile)) {
-            $logo = $this->uploadOne($request->logo, 'brands');
+            $brand['logo'] = $this->uploadOne($request->logo, 'brands', 'public');
         }
 
-        Brand::create([
-            'name' => $request->name,
-            'logo' => $logo
-        ]);
+        $this->brandRepository->create($brand);
 
-        return redirect()->route('brands.index')->with('toast_success', 'Create brand successfuly');
+        return to_route('brands.index')->with('toast_success', 'Create brand successfuly');
     }
 
     /**
@@ -86,23 +94,22 @@ class BrandController extends Controller
      */
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
+        $attribute = $request->validated();
 
-        // dd($brand->logo);
         if ($request->has('logo') && ($request->logo instanceof UploadedFile)) {
+            
+            $attribute['logo'] = $this->uploadOne($request->logo, 'brands', 'public');
+            
             if ($brand->logo != null) {
                 $this->deleteOne($brand->logo);
             }
-            $logo = $this->uploadOne($request->logo, 'brands', '', time());
         }
 
-        $brand->update([
-            'name' => $request->name,
-            'logo' => $logo
-        ]);
+        $this->brandRepository->update($brand->id, $attribute);
 
-        return redirect()->route('brands.index')->with('toast_success', 'Update brand successfuly');
+        return to_route('brands.index')->with('toast_success', 'Update brand successfuly');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -114,8 +121,8 @@ class BrandController extends Controller
         if ($brand->logo != null) {
             $this->deleteOne($brand->logo);
         }
-        
-        $brand->delete();
+
+        $this->brandRepository->delete($brand->id);
 
         return redirect()->route('brands.index')->with('toast_success', 'Delete brand successfuly');
     }

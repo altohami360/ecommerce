@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>User Avatar</label>
-                                    <input class="form-control" type="file" name="avatar">
+                                    <input class="form-control" type="file" name="image">
                                 </div>
                             </div>
                         </div>
