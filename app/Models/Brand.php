@@ -21,4 +21,9 @@ class Brand extends Model
         $this->attributes['slug'] = Str::slug($value);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
 }

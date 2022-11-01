@@ -20,10 +20,10 @@ class Category extends Model
     ];
 
     public function setNameAttribute($value)
-{
-    $this->attributes['name'] = $value;
-    $this->attributes['slug'] = Str::slug($value);
-}
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
+    }
 
     public function parent()
     {
@@ -33,5 +33,10 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
 }

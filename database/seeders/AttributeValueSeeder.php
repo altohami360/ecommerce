@@ -24,7 +24,7 @@ class AttributeValueSeeder extends Seeder
             AttributeValue::create([
                 'attribute_id'      =>  1,
                 'value'             =>  $size,
-                'price'             =>  null,
+                // 'price'             =>  null,
             ]);
         }
 
@@ -33,7 +33,7 @@ class AttributeValueSeeder extends Seeder
             AttributeValue::create([
                 'attribute_id'      =>  2,
                 'value'             =>  $color,
-                'price'             =>  null,
+                // 'price'             =>  null,
             ]);
         }
     }
