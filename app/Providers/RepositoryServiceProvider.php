@@ -13,6 +13,7 @@ class RepositoryServiceProvider extends ServiceProvider
         \App\Repositories\CategoryRepositoryInterface::class        => \App\Repositories\Eloquent\CategoryRepository::class,
         \App\Repositories\BrandRepositoryInterface::class           => \App\Repositories\Eloquent\BrandRepository::class,
         \App\Repositories\AttributeRepositoryInterface::class       => \App\Repositories\Eloquent\AttributeRepository::class,
+        \App\Repositories\ProductRepositoryInterface::class         => \App\Repositories\Eloquent\ProductRepository::class,
     ];
 
     /**

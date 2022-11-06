@@ -29,6 +29,13 @@ class Product extends Model
         'featured' => 'boolean',
     ];
 
+    public function slug():Attribute
+    {
+        return new Attribute(
+            set: fn($value) => 'slug-a'
+        );
+    }
+
     // public function setNameAttribute($value)
     // {
     //     $attribute['name'] = $value;
@@ -49,7 +56,7 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
-    
+
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);

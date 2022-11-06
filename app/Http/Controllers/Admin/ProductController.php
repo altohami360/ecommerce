@@ -3,10 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Repositories\BrandRepositoryInterface;
+use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    private $brandRepository;
+    private $categoryRepository;
+    private $productRepository;
+
+    public function __construct(
+        BrandRepositoryInterface $brandRepository,
+        CategoryRepositoryInterface $categoryRepository,
+        ProductRepositoryInterface $productRepository
+    ) {
+        $this->brandRepository = $brandRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +32,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->productRepository->all(['*'], ['categories', 'brand']);
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -24,7 +43,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $brands = $this->brandRepository->all();
+        $categories = $this->categoryRepository->all();
+        return view('admin.products.create', compact('brands', 'categories'));
     }
 
     /**
@@ -33,9 +54,12 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        $product = $this->productRepository->create($request->validated());
+        $product->categories()->attach($request->category_id);
+
+        return to_route('products.index')->with('toast_success', 'Create product Successfuly');
     }
 
     /**
@@ -80,6 +104,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->productRepository->delete($id);
+        return to_route('products.index')->with('toast_success', 'Delete Product Successfuly');
     }
 }

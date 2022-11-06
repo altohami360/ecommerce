@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::create([
+        $pr1 = Product::create([
             'name' => 'phone',
             'slug' => 'phone',
             'description' => 'some text',
@@ -28,7 +28,8 @@ class ProductSeeder extends Seeder
             'brand_id' => 3
         ]);
 
-        Product::create([
+        
+        $pr2 = Product::create([
             'name' => 'book',
             'slug' => 'book',
             'description' => 'some text',
@@ -40,5 +41,9 @@ class ProductSeeder extends Seeder
             'featured' => true,
             'brand_id' => 4
         ]);
+        
+        $pr1->categories()->attach([1, 3, 4]);
+        
+        $pr2->categories()->attach([2, 5, 4]);
     }
 }
