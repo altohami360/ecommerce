@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,
+            BrandSeeder::class,
             ProductSeeder::class,
             ProductAttributeSeeder::class
         ]);

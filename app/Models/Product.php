@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
 
     protected $fillable = [
         'name',
@@ -29,12 +30,12 @@ class Product extends Model
         'featured' => 'boolean',
     ];
 
-    public function slug():Attribute
-    {
-        return new Attribute(
-            set: fn($value) => 'slug-a'
-        );
-    }
+    // public function slug():Attribute
+    // {
+    //     return new Attribute(
+    //         set: fn($value) => 'slug-a'
+    //     );
+    // }
 
     // public function setNameAttribute($value)
     // {
