@@ -29,10 +29,11 @@
                                 <tr>
                                     <th> # </th>
                                     <th> Name </th>
-                                    <th> Slug </th>
+                                    {{-- <th> Slug </th>
                                     <th> Brand </th>
                                     <th> Price </th>
-                                    <th class="text-center"> Categories </th>
+                                    <th class="text-center"> Categories </th> --}}
+                                    <th class="text-center"> Attributes </th>
                                     <th> Status </th>
                                     {{-- <th class="text-center"> Featured </th>
                                     <th class="text-center"> Menu </th>
@@ -46,7 +47,7 @@
                                     <tr>
                                         <td>{{ $product->id }}</td>
                                         <td>{{ $product->name }}</td>
-                                        <td>{{ $product->slug }}</td>
+                                        {{-- <td>{{ $product->slug }}</td>
                                         <td>{{ $product->brand->name }}</td>
                                         <td>{{ $product->price }}$</td>
                                         <td class="text-center">
@@ -55,6 +56,19 @@
                                                     {{ $category->name }}
                                                 </span>
                                             @endforeach
+                                        </td> --}}
+                                        <td class="text-center">
+
+                                            @foreach ($product->productsAttributes as $productAttribute)
+                                                
+                                                {{$productAttribute->attribute->name}}    
+
+                                                <span class='badge badge-success'>
+                                                    {{ $productAttribute->attributeValue->value }}
+                                                </span>
+                                                <br>
+                                            @endforeach
+
                                         </td>
                                         <td class="text-center">
                                             <span class='badge badge-{{ $product->status ? 'success' : 'danger' }}'>

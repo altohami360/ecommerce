@@ -14,8 +14,7 @@ class ProductAttribute extends Model
         'price',
         'product_id',
         'attribute_id',
-
-        // 'attribute_value_id'
+        'attribute_value_id'
     ];
     
     protected $casts = [
@@ -24,19 +23,19 @@ class ProductAttribute extends Model
         'attribute_value_id' => 'integer'
     ];
     
-    public function products()
+    public function product()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function attribute()
     {
-        return $this->belongsToMany(Attribute::class);
+        return $this->belongsTo(Attribute::class);
     }
 
-    public function attributeValues()
+    public function attributeValue()
     {
-        return $this->belongsToMany(AttributeValue::class);
+        return $this->belongsTo(AttributeValue::class);
     }
 
 }

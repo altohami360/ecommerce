@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Repositories\AttributeRepositoryInterface;
 use App\Repositories\BrandRepositoryInterface;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
@@ -14,15 +15,18 @@ class ProductController extends Controller
     private $brandRepository;
     private $categoryRepository;
     private $productRepository;
+    private $attributeRepository;
 
     public function __construct(
         BrandRepositoryInterface $brandRepository,
         CategoryRepositoryInterface $categoryRepository,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        AttributeRepositoryInterface $attributeRepository
     ) {
         $this->brandRepository = $brandRepository;
         $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
+        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -32,8 +36,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->productRepository->all(['*'], ['categories', 'brand']);
-        return view('admin.products.index', compact('products'));
+        // $products = $this->productRepository->all(['*'], ['categories', 'brand', 'productsAttributes' => ['attribute', 'attributeValue']]);
+        $products = $this->productRepository->all(['id', 'name'], ['productsAttributes' => ['attribute', 'attributeValue']]);
+        // return response()->json($products);
+        $attributes = $this->attributeRepository->all();
+        return view('admin.products.index', compact('products', 'attributes'));
     }
 
     /**
@@ -45,7 +52,8 @@ class ProductController extends Controller
     {
         $brands = $this->brandRepository->all();
         $categories = $this->categoryRepository->all();
-        return view('admin.products.create', compact('brands', 'categories'));
+        $attributes = $this->attributeRepository->all();
+        return view('admin.products.create', compact('brands', 'categories', 'attributes'));
     }
 
     /**

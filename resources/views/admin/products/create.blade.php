@@ -18,6 +18,8 @@
                 <div class="tile p-0">
                     <ul class="nav flex-column nav-tabs user-tabs">
                         <li class="nav-item"><a class="nav-link active" href="#general" data-toggle="tab">General</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#attributes" data-toggle="tab">Product Attributes</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#images" data-toggle="tab">Product Images</a></li>
                     </ul>
                 </div>
@@ -154,6 +156,73 @@
                         </div>
                         </form>
                     </div>
+                    <div class="tab-pane active" id="attributes">
+                        <div class="tile">
+                            <form action="{{ route('products.store') }}" method="POST">
+                                @csrf
+                                <h3 class="tile-title">General Settings</h3>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="parent">Attribute <span class="text-danger">*</span></label>
+                                            <select class="form-control custom-select" id="attribute"
+                                                name="attribute_id">
+                                                @foreach ($attributes as $attribute)
+                                                    <option value="{{ $attribute->id }}" @selected(old('attribute_id') == $attribute->id)>
+                                                        {{ $attribute->name }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="parent">Value <span class="text-danger">*</span></label>
+                                            <select class="form-control custom-select" id="value" name="value">
+                                                <option value="">...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Price <b class="text-danger">*</b></label>
+                                            <input class="form-control" type="text"
+                                                name="price"value="{{ old('price') }}" placeholder="Price">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Quantity <b class="text-danger">*</b></label>
+                                            <input class="form-control" type="text"
+                                                name="quantity"value="{{ old('quantity') }}" placeholder="Quantity">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th> # </th>
+                                                <th> Attribute </th>
+                                                <th> Value </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{-- @foreach ($products as $product)
+                                                <tr>
+                                                    <td>{{ $product->id }}</td>
+                                                    <td>{{ $product->id }}</td>
+                                                </tr>
+                                            @endforeach --}}
+                                        </tbody>            
+                                    </table>
+                                </div>
+                                <div class="tile-footer">
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
                     <div class="tab-pane" id="images">
                         <div class="tile">
                             <h3 class="tile-title">Upload Image</h3>
@@ -176,7 +245,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 @if (isset($product->images))
                                     <hr>
                                     <div class="row">
@@ -214,46 +283,22 @@
     <script type="text/javascript" src="{{ asset('js/plugins/dropzone.js') }}"></script>
 
     <script>
-        Dropzone.autoDiscover = false;
-    
-        $( document ).ready(function() {
-            $('#categories').select2();
-    
-            let myDropzone = new Dropzone("#dropzone", {
-                paramName: "image",
-                addRemoveLinks: false,
-                maxFilesize: 4,
-                parallelUploads: 2,
-                uploadMultiple: false,
-                url: "{{}}",
-                autoProcessQueue: false,
-            });
-            myDropzone.on("queuecomplete", function (file) {
-                window.location.reload();
-                showNotification('Completed', 'All product images uploaded', 'success', 'fa-check');
-            });
-            $('#uploadButton').click(function(){
-                if (myDropzone.files.length === 0) {
-                    showNotification('Error', 'Please select files to upload.', 'danger', 'fa-close');
-                } else {
-                    myDropzone.processQueue();
-                }
-            });
-            function showNotification(title, message, type, icon)
-            {
-                $.notify({
-                    title: title + ' : ',
-                    message: message,
-                    icon: 'fa ' + icon
-                },{
-                    type: type,
-                    allow_dismiss: true,
-                    placement: {
-                        from: "top",
-                        align: "right"
-                    },
-                });
-            }
-        });
+        $(document).ready(function() {
+            $('#attribute').change(function() {
+                var $value = $('#value');
+                var attribute_id = $(this).val();
+                var url = "{{ route('values.index', ':id') }}";
+                url = url.replace(':id', attribute_id);
+                $.ajax({
+                    url: url,
+                    success: function(data) {
+                        $.each(data, function(id, value) {
+                            $value.append('<option value="' + value.id + '">' + value
+                                .value + '</option>');
+                        });
+                    }
+                })
+            })
+        })
     </script>
 @endpush

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Attribute;
 use App\Traits\HasSlug;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -30,19 +30,6 @@ class Product extends Model
         'featured' => 'boolean',
     ];
 
-    // public function slug():Attribute
-    // {
-    //     return new Attribute(
-    //         set: fn($value) => 'slug-a'
-    //     );
-    // }
-
-    // public function setNameAttribute($value)
-    // {
-    //     $attribute['name'] = $value;
-    //     $attribute['slug'] = Str::slug($value);
-    // }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -58,8 +45,16 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-    public function attributes()
+    public function productsAttributes()
     {
         return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function attributes()
+    {
+        return $this->hasManyThrough(
+            Attribute::class,
+            ProductAttribute::class
+        );
     }
 }
