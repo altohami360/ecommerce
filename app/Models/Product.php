@@ -52,9 +52,6 @@ class Product extends Model
 
     public function attributes()
     {
-        return $this->hasManyThrough(
-            Attribute::class,
-            ProductAttribute::class
-        );
+        return $this->hasMany(ProductAttribute::class)->groupBy('attribute_id');
     }
 }

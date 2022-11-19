@@ -16,39 +16,44 @@ class ProductAttributeSeeder extends Seeder
     public function run()
     {
         ProductAttribute::create([
+            'sku' => 'sku1',
             'quantity' => 100,
             'price' => 20,
             'product_id' => 1,
             'attribute_id' => 2,
-            'attribute_value_id' => 4
+            'value' => 'calue 1'
         ]);
         ProductAttribute::create([
+            'sku' => 'sku2',
             'quantity' => 100,
             'price' => 20,
             'product_id' => 1,
             'attribute_id' => 2,
-            'attribute_value_id' => 5
+            'value' => 'calue 1'
         ]);
         ProductAttribute::create([
+            'sku' => 'sku3',
             'quantity' => 100,
             'price' => 20,
             'product_id' => 1,
             'attribute_id' => 2,
-            'attribute_value_id' => 6
+            'value' => 'calue 1'
         ]);
         ProductAttribute::create([
+            'sku' => 'sku4',
             'quantity' => 100,
             'price' => 20,
             'product_id' => 1,
             'attribute_id' => 1,
-            'attribute_value_id' => 1
+            'value' => 1
         ]);
         ProductAttribute::create([
+            'sku' => 'sku5',
             'quantity' => 100,
             'price' => 20,
             'product_id' => 1,
             'attribute_id' => 1,
-            'attribute_value_id' => 2
+            'value' => 2
         ]);
     }
 }

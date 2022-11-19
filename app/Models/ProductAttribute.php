@@ -9,20 +9,20 @@ class ProductAttribute extends Model
 {
     use HasFactory;
 
-    protected $fillalbe = [
+    protected $fillable = [
+        'sku',
         'quantity',
         'price',
         'product_id',
         'attribute_id',
-        'attribute_value_id'
+        'value'
     ];
-    
-    protected $casts = [
-        'product_id' => 'integer',
-        'attribute_id' => 'integer',
-        'attribute_value_id' => 'integer'
-    ];
-    
+
+    // protected $casts = [
+    //     'product_id' => 'integer',
+    //     'attribute_id' => 'integer',
+    // ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -37,5 +37,4 @@ class ProductAttribute extends Model
     {
         return $this->belongsTo(AttributeValue::class);
     }
-
 }

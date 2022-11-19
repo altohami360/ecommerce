@@ -14,21 +14,11 @@
         @endif
 
         <div class="row">
-            <div class="col-md-3">
-                <div class="tile p-0">
-                    <ul class="nav flex-column nav-tabs user-tabs">
-                        <li class="nav-item"><a class="nav-link active" href="#general" data-toggle="tab">General</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#attributes" data-toggle="tab">Product Attributes</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#images" data-toggle="tab">Product Images</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="col-md-9">
                 <div class="tab-content">
                     <div class="tab-pane active" id="general">
-                        <div class="tile">
-                            <form action="{{ route('products.store') }}" method="POST">
+                        <form action="{{ route('products.store') }}" method="POST">
+                            <div class="tile">
                                 @csrf
                                 <h3 class="tile-title">General Settings</h3>
                                 <hr>
@@ -153,12 +143,12 @@
                                 <div class="tile-footer">
                                     <button class="btn btn-primary" type="submit">Save</button>
                                 </div>
-                        </div>
+                            </div>
                         </form>
                     </div>
-                    <div class="tab-pane active" id="attributes">
-                        <div class="tile">
-                            <form action="{{ route('products.store') }}" method="POST">
+                    {{-- <div class="tab-pane active" id="attributes">
+                        <form action="{{ route('products.store') }}" method="POST">
+                            <div class="tile">
                                 @csrf
                                 <h3 class="tile-title">General Settings</h3>
                                 <hr>
@@ -168,6 +158,7 @@
                                             <label for="parent">Attribute <span class="text-danger">*</span></label>
                                             <select class="form-control custom-select" id="attribute"
                                                 name="attribute_id">
+                                                <option value="">...</option>
                                                 @foreach ($attributes as $attribute)
                                                     <option value="{{ $attribute->id }}" @selected(old('attribute_id') == $attribute->id)>
                                                         {{ $attribute->name }} </option>
@@ -178,6 +169,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="parent">Value <span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text"
+                                                name="value" value="{{ old('value') }}" placeholder="Value">
                                             <select class="form-control custom-select" id="value" name="value">
                                                 <option value="">...</option>
                                             </select>
@@ -208,19 +201,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($products as $product)
-                                                <tr>
-                                                    <td>{{ $product->id }}</td>
-                                                    <td>{{ $product->id }}</td>
-                                                </tr>
-                                            @endforeach --}}
+                                            
                                         </tbody>            
                                     </table>
                                 </div>
                                 <div class="tile-footer">
                                     <button class="btn btn-primary" type="submit">Save</button>
                                 </div>
-                        </div>
+                            </div>
                         </form>
                     </div>
                     <div class="tab-pane" id="images">
@@ -267,7 +255,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="tab-pane fade" id="site-logo">
 
@@ -283,6 +271,25 @@
     <script type="text/javascript" src="{{ asset('js/plugins/dropzone.js') }}"></script>
 
     <script>
+        // $(document).ready(function() {
+        //     $('#attribute').change(function() {
+        //         var $value = $('#value');
+        //         var attribute_id = $(this).val();
+        //         var url = "{{ route('values.index', ':id') }}";
+        //         url = url.replace(':id', attribute_id);
+        //         $.ajax({
+        //             url: url,
+        //             success: function(data) {
+        //                 $value.html('<option value="">...</option>');
+        //                 $.each(data, function(id, value) {
+        //                     $value.append('<option value="' + value.id + '">' + value
+        //                         .value + '</option>');
+        //                 });
+        //             }
+        //         })
+        //         $('#value').val('');
+        //     })
+        // })
         $(document).ready(function() {
             $('#attribute').change(function() {
                 var $value = $('#value');
@@ -292,12 +299,14 @@
                 $.ajax({
                     url: url,
                     success: function(data) {
+                        $value.html('<option value="">...</option>');
                         $.each(data, function(id, value) {
                             $value.append('<option value="' + value.id + '">' + value
                                 .value + '</option>');
                         });
                     }
                 })
+                $('#value').val('');
             })
         })
     </script>

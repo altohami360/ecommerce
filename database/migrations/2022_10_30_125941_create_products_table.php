@@ -22,8 +22,8 @@ return new class extends Migration
             $table->decimal('weight')->nullable();
             $table->decimal('price')->nullable();
             $table->decimal('sale_price')->nullable();
-            $table->boolean('status')->default(1);
-            $table->boolean('featured')->default(1);
+            $table->boolean('status')->default(false);
+            $table->boolean('featured')->default(true);
 
             $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
 

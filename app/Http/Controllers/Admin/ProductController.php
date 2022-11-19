@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Models\Product;
 use App\Repositories\AttributeRepositoryInterface;
 use App\Repositories\BrandRepositoryInterface;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -36,11 +38,42 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // $products = $this->productRepository->all(['*'], ['categories', 'brand', 'productsAttributes' => ['attribute', 'attributeValue']]);
-        $products = $this->productRepository->all(['id', 'name'], ['productsAttributes' => ['attribute', 'attributeValue']]);
-        // return response()->json($products);
-        $attributes = $this->attributeRepository->all();
-        return view('admin.products.index', compact('products', 'attributes'));
+        $products = $this->productRepository->all(['*'],  ['productsAttributes', 'brand', 'categories', 'images']);
+        $attributesModel = $this->attributeRepository->all();
+
+
+        $products = $products->map(function ($product) use ($attributesModel) {
+
+            $product['attributes'] = $this->getProductAttribute($product);
+
+            return $product;
+        });
+
+        return view('admin.products.index', compact('products'));
+    }
+
+    public function getProductAttribute($product)
+    {
+        $attributes = $product->productsAttributes->groupBy('attribute_id');
+        $attributesModel = $this->attributeRepository->all();
+
+        $array = collect();
+        foreach ($attributesModel as $attribute) {
+            foreach ($attributes as $key => $a) {
+
+                if ($key == $attribute['id']) {
+                    $array->push(
+                        collect([
+                            'attribute' => collect([
+                                'name' => $attribute['name'],
+                                'value' => $a,
+                            ])
+                        ])
+                    );
+                }
+            }
+        }
+        return ($array);
     }
 
     /**

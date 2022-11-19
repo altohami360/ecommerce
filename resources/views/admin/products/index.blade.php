@@ -29,15 +29,13 @@
                                 <tr>
                                     <th> # </th>
                                     <th> Name </th>
-                                    {{-- <th> Slug </th>
+                                    <th> Slug </th>
                                     <th> Brand </th>
                                     <th> Price </th>
-                                    <th class="text-center"> Categories </th> --}}
+                                    <th class="text-center"> Categories </th>
                                     <th class="text-center"> Attributes </th>
+                                    <th class="text-center"> Images </th>
                                     <th> Status </th>
-                                    {{-- <th class="text-center"> Featured </th>
-                                    <th class="text-center"> Menu </th>
-                                    <th class="text-center"> Order </th> --}}
                                     <th style="width:100px; min-width:100px;" class="text-center text-danger"><i
                                             class="fa fa-bolt"> </i></th>
                                 </tr>
@@ -47,8 +45,8 @@
                                     <tr>
                                         <td>{{ $product->id }}</td>
                                         <td>{{ $product->name }}</td>
-                                        {{-- <td>{{ $product->slug }}</td>
-                                        <td>{{ $product->brand->name }}</td>
+                                        <td>{{ $product->slug }}</td>
+                                        <td>{{ $product->brand->name ?? '' }}</td>
                                         <td>{{ $product->price }}$</td>
                                         <td class="text-center">
                                             @foreach ($product->categories as $category)
@@ -56,31 +54,57 @@
                                                     {{ $category->name }}
                                                 </span>
                                             @endforeach
-                                        </td> --}}
+                                        </td>
                                         <td class="text-center">
+                                            @forelse ($product->attributes as $attributes)   
 
-                                            @foreach ($product->productsAttributes as $productAttribute)
                                                 
-                                                {{$productAttribute->attribute->name}}    
+                                                @foreach ($attributes as $a)
+                                                   
+                                                    <span class='badge badge-primary'>{{ $a['name'] }} </span>  <i class="fa fa-arrow-right"></i>
 
-                                                <span class='badge badge-success'>
-                                                    {{ $productAttribute->attributeValue->value }}
-                                                </span>
-                                                <br>
-                                            @endforeach
+                                                    @foreach ($a['value'] as $item)
+                                                        <span class='badge badge-success'>{{ $item->value }} </span>  
+                                                    @endforeach
+                                                    <br>
+                                                @endforeach
 
+                                                {{-- @foreach ($productAttribute->attribute as $attribute)
+
+                                                    <span class='badge badge-success'>{{ $attribute->value }} </span> 
+
+                                                @endforeach --}}
+
+                                            @empty
+                                                <a href="{{ route('create.product.attribute', $product->id) }}" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-plus"></i>
+                                                    Add Attribute
+                                                </a>
+                                            @endforelse 
+                                        </td>
+                                        <td class="text-center">
+                                            @forelse ($product->images as $image)   
+
+                                            {{ $image->thumbnail }}
+
+                                                {{-- @foreach ($productAttribute->attribute as $attribute)
+
+                                                    <span class='badge badge-success'>{{ $attribute->value }} </span> 
+
+                                                @endforeach --}}
+
+                                            @empty
+                                                <a href="#" class="btn btn-success btn-sm">
+                                                    <i class="fa fa-plus"></i>
+                                                    Add Images
+                                                </a>
+                                            @endforelse 
                                         </td>
                                         <td class="text-center">
                                             <span class='badge badge-{{ $product->status ? 'success' : 'danger' }}'>
                                                 {{ $product->status ? 'Active' : 'Not Active' }}
                                             </span>
                                         </td>
-                                        {{-- <td class="text-center">
-                                            <span class='badge badge-{{ $product->menu ? 'success' : 'danger' }}'>
-                                                {{ $product->menu ? 'Yes' : 'NO' }}
-                                            </span>
-                                        </td>
-                                        <td>{{ $product->order }}</td> --}}
                                         <td>
                                             <a class="btn btn-warning btn-sm"
                                                 href="{{ route('products.edit', $product) }}">Edit</a>
