@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepository->all();
+        $categories = $this->categoryRepository->all(['*'], ['parent']);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -41,6 +41,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = $this->categoryRepository->all(['id', 'name']);
+
         return view('admin.categories.create', compact('categories'));
     }
 
@@ -55,9 +56,7 @@ class CategoryController extends Controller
 
         $category = $request->validated();
 
-        if ($request->has('image') && ($request->image instanceof UploadedFile)) {
-            $category['image'] = $this->uploadOne($request->image, 'categories', 'public');
-        }
+        $category['image'] = $this->uploadOne($request->image, 'categories', 'public');
 
         $this->categoryRepository->create($category);
 
@@ -99,16 +98,11 @@ class CategoryController extends Controller
     {
         $attribute = $request->validated();
 
-        if ($request->has('image') && ($request->image instanceof UploadedFile)) {
-            
-            $attribute['image'] = $this->uploadOne($request->image, 'categories', 'public');
+        $attribute['image'] = $this->uploadOne($request->image, 'categories', 'public');
 
-            if ($category->image != null) {
-                $this->deleteOne($category->image);
-            }
-
+        if ($category->image != null) {
+            $this->deleteOne($category->image);
         }
-
 
         $this->categoryRepository->update($category->id, $attribute);
 

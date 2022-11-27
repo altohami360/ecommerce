@@ -8,8 +8,6 @@ use App\Http\Requests\Brand\UpdateBrandRequest;
 use App\Models\Brand;
 use App\Repositories\BrandRepositoryInterface;
 use App\Traits\UploadAble;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 
 class BrandController extends Controller
 {
@@ -29,8 +27,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        // dd(truee);
         $brands = $this->brandRepository->all();
+
         return view('admin.brands.index', compact('brands'));
     }
 
@@ -41,7 +39,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('admin.brands/create');
+        return view('admin.brands.create');
     }
 
     /**
@@ -54,24 +52,11 @@ class BrandController extends Controller
     {
         $brand = $request->validated();
 
-        if ($request->has('logo') && ($request->logo instanceof UploadedFile)) {
-            $brand['logo'] = $this->uploadOne($request->logo, 'brands', 'public');
-        }
+        $brand['logo'] = $this->uploadOne($request->logo, 'brands', 'public');
 
         $this->brandRepository->create($brand);
 
         return to_route('brands.index')->with('toast_success', 'Create brand successfuly');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -96,13 +81,10 @@ class BrandController extends Controller
     {
         $attribute = $request->validated();
 
-        if ($request->has('logo') && ($request->logo instanceof UploadedFile)) {
-            
-            $attribute['logo'] = $this->uploadOne($request->logo, 'brands', 'public');
-            
-            if ($brand->logo != null) {
-                $this->deleteOne($brand->logo);
-            }
+        $attribute['logo'] = $this->uploadOne($request->logo, 'brands', 'public');
+
+        if ($brand->logo != null) {
+            $this->deleteOne($brand->logo);
         }
 
         $this->brandRepository->update($brand->id, $attribute);

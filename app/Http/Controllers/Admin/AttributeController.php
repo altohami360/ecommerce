@@ -7,7 +7,6 @@ use App\Http\Requests\Attribute\StoreAttributeRequest;
 use App\Http\Requests\Attribute\UpdateAttributeRequest;
 use App\Models\Attribute;
 use App\Repositories\AttributeRepositoryInterface;
-use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
@@ -27,6 +26,7 @@ class AttributeController extends Controller
     public function index()
     {
         $attributes = $this->attributerepository->all();
+        
         return view('admin.attributes.index', compact('attributes'));
     }
 
@@ -48,7 +48,6 @@ class AttributeController extends Controller
      */
     public function store(StoreAttributeRequest $request)
     {
-        // dd($request->validated());
         $this->attributerepository->create($request->validated());
 
         return to_route('attributes.index')->with('toast_success', 'Create Attribute Successufuly');
@@ -88,6 +87,7 @@ class AttributeController extends Controller
     public function destroy(Attribute $attribute)
     {
         $this->attributerepository->delete($attribute->id);
+
         return to_route('attributes.index')->with('toast_success', 'Delete Attribute Successufuly');
     }
 }

@@ -22,8 +22,14 @@ interface EloquentRepositoryInterface
 
     /**
      * @param int $id
-     * @param array $relations
-     * @param int $appends
+     * @return mixed
+     */
+    public function findOneById(
+        int $id
+    );
+
+    /**
+     * @param int $id
      * @return mixed
      */
     public function findById(

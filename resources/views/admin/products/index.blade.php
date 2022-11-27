@@ -30,13 +30,14 @@
                                     <th> # </th>
                                     <th> Name </th>
                                     <th> Slug </th>
+                                    <th> sku </th>
                                     <th> Brand </th>
                                     <th> Price </th>
-                                    <th class="text-center"> Categories </th>
-                                    <th class="text-center"> Attributes </th>
-                                    <th class="text-center"> Images </th>
+                                    <th  class="text-center w-25"> Categories </th>
+                                    {{-- <th class="text-center"> Attributes </th> --}}
+                                    {{-- <th class="text-center"> Images </th> --}}
                                     <th> Status </th>
-                                    <th style="width:100px; min-width:100px;" class="text-center text-danger"><i
+                                    <th style="" class="text-center text-danger"><i
                                             class="fa fa-bolt"> </i></th>
                                 </tr>
                             </thead>
@@ -46,6 +47,7 @@
                                         <td>{{ $product->id }}</td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->slug }}</td>
+                                        <td>SKU</td>
                                         <td>{{ $product->brand->name ?? '' }}</td>
                                         <td>{{ $product->price }}$</td>
                                         <td class="text-center">
@@ -55,7 +57,8 @@
                                                 </span>
                                             @endforeach
                                         </td>
-                                        <td class="text-center">
+                                        {{-- Attribtue --}}
+                                        {{-- <td class="text-center">
                                             @forelse ($product->attributes as $attributes)   
 
                                                 
@@ -69,29 +72,18 @@
                                                     <br>
                                                 @endforeach
 
-                                                {{-- @foreach ($productAttribute->attribute as $attribute)
-
-                                                    <span class='badge badge-success'>{{ $attribute->value }} </span> 
-
-                                                @endforeach --}}
-
                                             @empty
                                                 <a href="{{ route('create.product.attribute', $product->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-plus"></i>
                                                     Add Attribute
                                                 </a>
                                             @endforelse 
-                                        </td>
-                                        <td class="text-center">
+                                        </td> --}}
+                                        {{-- Images --}}
+                                        {{-- <td class="text-center">
                                             @forelse ($product->images as $image)   
 
                                             {{ $image->thumbnail }}
-
-                                                {{-- @foreach ($productAttribute->attribute as $attribute)
-
-                                                    <span class='badge badge-success'>{{ $attribute->value }} </span> 
-
-                                                @endforeach --}}
 
                                             @empty
                                                 <a href="#" class="btn btn-success btn-sm">
@@ -99,21 +91,44 @@
                                                     Add Images
                                                 </a>
                                             @endforelse 
-                                        </td>
+                                        </td> --}}
                                         <td class="text-center">
                                             <span class='badge badge-{{ $product->status ? 'success' : 'danger' }}'>
                                                 {{ $product->status ? 'Active' : 'Not Active' }}
                                             </span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-warning btn-sm"
-                                                href="{{ route('products.edit', $product) }}">Edit</a>
-                                            <form action="{{ route('products.destroy', $product) }}" method="post"
-                                                style="display: inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </form>
+
+                                            
+                                            <a class="btn btn-info btn-sm"
+                                            href="">show</a>
+                                            <a class="btn btn-success btn-sm"
+                                            href="">Edit</a>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" id="btnGroupDrop4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            
+                                                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(36px, 37px, 0px);">
+                                                    <a class="dropdown-item" href="{{ route('product.attribute', $product) }}">
+                                                        <i class="fa fa-list"></i>
+                                                        Attribtues
+                                                    </a>
+                                                    <a class="dropdown-item" href="{{ route('product.image', $product) }}">
+                                                        <i class="fa fa-file-image-o"></i>
+                                                        Images
+                                                    </a>
+
+                                                    <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{  $product->id }}').submit();">
+                                                        <i class="fa fa-trash"></i>
+                                                        Delete
+                                                    </a>
+
+                                                    <form id="delete-form-{{  $product->id }}" action="{{ route('products.destroy', $product) }}" method="post"
+                                                        style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

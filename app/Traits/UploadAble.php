@@ -18,19 +18,18 @@ trait UploadAble
      * @param null $filename
      * @return false|string
      */
-    public function uploadOne(UploadedFile $file, $folder = null, $disk = 'public')
+    public function uploadOne(UploadedFile $file = null, $folder = null, $disk = 'public')
     {
-        if (!$file) {
-            return;
+        if ($file && ($file instanceof UploadedFile)) {
+
+            $name = time() . "." . $file->getClientOriginalExtension();
+
+            return $file->storeAs(
+                $folder,
+                $name,
+                $disk
+            );
         }
-
-        $name = time() . "." . $file->getClientOriginalExtension();
-
-        return $file->storeAs(
-            $folder,
-            $name,
-            $disk
-        );
     }
 
     /**
@@ -39,6 +38,8 @@ trait UploadAble
      */
     public function deleteOne($path = null, $disk = 'public')
     {
-        Storage::disk($disk)->delete($path);
+        if ($path) {
+            Storage::disk($disk)->delete($path);
+        }
     }
 }

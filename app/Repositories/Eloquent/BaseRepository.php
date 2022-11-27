@@ -39,10 +39,20 @@ class BaseRepository implements EloquentRepositoryInterface
      * @param int $id
      * @return mixed
      */
+    public function findOneById(
+        int $id
+    ) {
+        return $this->model->findOrFail($id);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findById(
         int $id
-    ){
-        return $this->model->findOrFail($id);
+    ) {
+        return $this->model->whereId($id)->get();
     }
 
     /**
@@ -61,7 +71,7 @@ class BaseRepository implements EloquentRepositoryInterface
      */
     public function update(int $id, array $attributes): bool
     {
-        return $this->findById($id)->update($attributes);
+        return $this->model->find($id)->update($attributes);
     }
 
     /**
@@ -70,6 +80,6 @@ class BaseRepository implements EloquentRepositoryInterface
      */
     public function delete(int $id): bool
     {
-        return $this->findById($id)->delete();
+        return $this->model->find($id)->delete();
     }
 }

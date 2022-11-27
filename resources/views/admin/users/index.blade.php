@@ -77,8 +77,8 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            <a class="btn btn-primary btn-sm" href="">Info</a>
-                                            <a class="btn btn-warning btn-sm" href="">Edit</a>
+                                            {{-- <a class="btn btn-primary btn-sm" href="">Info</a> --}}
+                                            <a class="btn btn-warning btn-sm" href="{{ route('users.edit', $user) }}">Edit</a>
                                             <form action="{{ route('users.destroy', $user) }}" method="post"
                                                 style="display: inline-block;">
                                                 @csrf

@@ -48,7 +48,6 @@
                                         <td>{{ $brand->name }}</td>
                                         <td>{{ $brand->slug }}</td>
                                         <td>
-                                            <a class="btn btn-primary btn-sm" href="{{ route('brands.show', $brand) }}">Info</a>
                                             <a class="btn btn-warning btn-sm" href="{{ route('brands.edit', $brand) }}">Edit</a>
                                             <form action="{{ route('brands.destroy', $brand) }}" method="post"
                                                 style="display: inline-block;">

@@ -7,18 +7,24 @@ use App\Http\Requests\StoreProductAttributeRequest;
 use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Repositories\AttributeRepositoryInterface;
+use App\Repositories\ProductAttributeRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ProductAttributeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    private $productRepository;
+    private $productAttribtueRepository;
+    private $attributeRepository;
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        ProductAttributeRepositoryInterface $productAttribtueRepository,
+        AttributeRepositoryInterface $attributeRepository,
+    ) {
+        $this->productRepository = $productRepository;
+        $this->productAttribtueRepository = $productAttribtueRepository;
+        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -26,14 +32,13 @@ class ProductAttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function index(Product $product)
     {
-        // dd($request->id);
-        $attributes = Attribute::all();
-        return view('admin.products.attribtue', [
-            'attributes' => $attributes,
-            'product' => $request->id
-        ]);
+        $productAttribtues = $this->productAttribtueRepository->getByforeignId('product_id', $product->id, ['attribute']);
+
+        $attributes = $this->attributeRepository->all(['*']);
+        
+        return view('admin.products.attribtue', compact('attributes', 'product', 'productAttribtues'));
     }
 
     /**
@@ -42,60 +47,15 @@ class ProductAttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductAttributeRequest $request, Product $product)
     {
-        $attributes = $request->only(['attributes']);
-        $product = Product::findOrFail($request->id);
+        $attributes = $request->validated();
 
-        foreach ($attributes as $attribute) {
-            foreach ($attribute as $attr) {
-                ProductAttribute::create([
-                    'product_id' => $request['id'],
-                    'attribute_id' => $attr['attribute_id'],
-                    'value' => $attr['value'],
-                    'price' => $attr['price'],
-                    'quantity' => $attr['quantity'],
-                    'sku' => $attr['sku'],
-                ]);
-            }
-        }
+        $attributes['product_id'] = $product->id;
 
-        return to_route('products.index')->with('toast_success', 'Create Attribute Successfuly');
-        
-    }
+        $this->productAttribtueRepository->create($attributes);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return to_route('product.attribute', compact('product'));
     }
 
     /**
@@ -104,8 +64,10 @@ class ProductAttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product, ProductAttribute $productAttribute)
     {
-        //
+        $this->productAttribtueRepository->delete($productAttribute->id);
+
+        return to_route('product.attribute', compact('product'));
     }
 }

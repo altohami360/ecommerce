@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\AdminController;
@@ -23,17 +24,23 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
         Route::resource('admins', AdminController::class);
 
-        Route::get('product-attribtue/{id}', [ProductAttributeController::class, 'create'])->name('create.product.attribute');
-        Route::post('product-attribtue/{id}', [ProductAttributeController::class, 'store'])->name('store.product.attribute');
+        Route::prefix('product/{product}/')->group(function () {
+
+            Route::get('attribtues', [ProductAttributeController::class, 'index'])->name('product.attribute');
+            Route::post('attribtues', [ProductAttributeController::class, 'store'])->name('store.product.attribute');
+            Route::delete('attribtues/{productAttribute}', [ProductAttributeController::class, 'destroy'])->name('delete.product.attribute');
+
+            Route::get('images', [ProductImageController::class, 'index'])->name('product.image');
+            Route::post('images', [ProductImageController::class, 'store'])->name('store.product.image');
+            Route::delete('images/{image}', [ProductImageController::class, 'destroy'])->name('delete.product.image');
+        });
         Route::resource('products', ProductController::class);
 
         Route::resource('categories', CategoryController::class);
 
-        Route::resource('brands', BrandController::class);
+        Route::resource('brands', BrandController::class)->except('show');
 
-        Route::resource('attributes', AttributeController::class);
-
-        Route::get('values/{attribute_id}', [AttributeValueController::class, 'index'])->name('values.index');
+        Route::resource('attributes', AttributeController::class)->except('show');
 
         Route::get('settings/index', [SettingController::class, 'index'])->name('settings.index');
         Route::PUT('settings/update', [SettingController::class, 'update'])->name('settings.update');

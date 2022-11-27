@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
-use App\Models\Product;
 use App\Repositories\AttributeRepositoryInterface;
 use App\Repositories\BrandRepositoryInterface;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -38,13 +36,35 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->productRepository->all(['*'],  ['productsAttributes', 'brand', 'categories', 'images']);
+        $products = $this->productRepository->all(['*'],  ['attributes', 'brand', 'categories', 'images']);
         $attributesModel = $this->attributeRepository->all();
 
 
         $products = $products->map(function ($product) use ($attributesModel) {
 
-            $product['attributes'] = $this->getProductAttribute($product);
+            $attributes = $product->attributes->groupBy('attribute_id');
+            // $attributesModel = $this->attributeRepository->all();
+
+            $array = collect();
+            foreach ($attributesModel as $attribute) {
+                foreach ($attributes as $key => $a) {
+
+                    if ($key == $attribute['id']) {
+                        $array->push(
+                            collect([
+                                'attribute' => collect([
+                                    'name' => $attribute['name'],
+                                    'value' => $a,
+                                ])
+                            ])
+                        );
+                    }
+                }
+            }
+            // return ($array);
+
+            $product['attributes'] = $array;
+            // $product['attributes'] = $this->getProductAttribute($product, $attributesModel);
 
             return $product;
         });
@@ -52,10 +72,10 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function getProductAttribute($product)
+    public function getProductAttribute($product, $attributesModel)
     {
         $attributes = $product->productsAttributes->groupBy('attribute_id');
-        $attributesModel = $this->attributeRepository->all();
+        // $attributesModel = $this->attributeRepository->all();
 
         $array = collect();
         foreach ($attributesModel as $attribute) {

@@ -1,24 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AttributeValue;
+use App\Repositories\AdminRepositoryInterface;
 use Illuminate\Http\Request;
 
-class AttributeValueController extends Controller
+class AdminController extends Controller
 {
+
+    private $adminRepository;
+
+    public function __construct(AdminRepositoryInterface $adminRepository)
+    {
+        $this->adminRepository = $adminRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        // dump($request);
-        $values = AttributeValue::where('attribute_id', $request->attribute_id)->get();
-        // $values = AttributeValue::all();
-        return response()->json($values);
+        $admins = $this->adminRepository->all();
+        return view('admin.admins.index', compact('admins'));
     }
 
     /**

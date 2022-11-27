@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use App\Traits\UploadAble;
@@ -83,9 +84,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -95,9 +96,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $attribute = $request->validated();
+
+        $attribute['avatar'] = $this->uploadOne($request->avatar, 'users', 'public');
+
+        if ($user->avatar != null) {
+            $this->deleteOne($user->avatar);
+        }
+
+        $this->userRepository->update($user->id, $attribute);
+
+        return to_route('users.index')->with('toast_success', 'Update user successfuly');
     }
 
     /**
@@ -109,6 +120,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $this->userRepository->delete($user->id);
+
+        if ($user->avatar != null) {
+            $this->deleteOne($user->avatar);
+        }
 
         return to_route('users.index')->with('toast_success', 'Delete User Successfuly');
     }

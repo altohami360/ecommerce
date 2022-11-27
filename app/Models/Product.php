@@ -45,13 +45,13 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-    public function productsAttributes()
+    public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);
     }
 
-    public function attributes()
-    {
-        return $this->hasMany(ProductAttribute::class)->groupBy('attribute_id');
-    }
+    // public function attributes()
+    // {
+    //     return $this->hasMany(ProductAttribute::class)->groupBy('attribute_id');
+    // }
 }

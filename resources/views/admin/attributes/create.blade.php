@@ -14,17 +14,7 @@
 
     <div class="row">
 
-        <div class="col-md-3">
-            <div class="tile p-0">
-                <ul class="nav flex-column nav-tabs user-tabs">
-                    <li class="nav-item"><a class="nav-link active" href="#general" data-toggle="tab">General</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#site-logo" data-toggle="tab">Site Logo</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#footer-seo" data-toggle="tab">Footer &amp; SEO</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="tab-content">
                 <div class="tab-pane active" id="general">
                     <div class="tile">
@@ -51,13 +41,13 @@
                                         ];
                                     @endphp
                                     <div class="form-group">
-                                        <label for="parent">Parent Category <span class="text-danger"> *</span></label>
+                                        <label for="parent">Front type <span class="text-danger"> *</span></label>
                                         <select class="form-control custom-select" name="frontend_type">
-                                            <option>Front-End Type</option>
+                                            {{-- <option>Front-End Type</option> --}}
                                             @foreach ($frontend_types as $key => $type)
                                                 {{-- @php dd($frontend_types); @endphp --}}
                                                 <option value="{{ $key }}" @selected(old('key') == $key)>
-                                                    {{ $type }} </option>
+                                                    {{ $type }} - {{ $key }} </option>
                                             @endforeach
                                         </select>
                                     </div>
