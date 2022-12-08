@@ -49,7 +49,7 @@ class ProductAttributeController extends Controller
      */
     public function store(StoreProductAttributeRequest $request, Product $product)
     {
-        dd($request->all());
+        // dd($request->all());
         
         $attributes = $request->validated();
 

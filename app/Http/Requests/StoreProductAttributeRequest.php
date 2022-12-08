@@ -24,17 +24,17 @@ class StoreProductAttributeRequest extends FormRequest
     public function rules()
     {
         return [
-            'attribute_id' => ['required', 'integer'],
-            'value' => ['required', 'string'],
-            'price' => ['required'],
-            'quantity' => ['required'],
-            'sku' => ['required'],
+            // 'attribute_id' => ['required', 'integer'],
+            // 'value' => ['required', 'string'],
+            // 'price' => ['required'],
+            // 'quantity' => ['required'],
+            // 'sku' => ['required'],
 
-            // 'attribute[attribute_id][*]' => ['required', 'integer'],
-            // 'attribute[value][*]' => ['required', 'string'],
-            // 'attribute[price][*]' => ['required'],
-            // 'attribute[quantity][*]' => ['required'],
-            // 'attribute[sku][*]' => ['required'],
+            'attribute[attribute_id][*]' => ['required', 'integer'],
+            'attribute[value][*]' => ['required', 'string'],
+            'attribute[price][*]' => ['required'],
+            'attribute[quantity][*]' => ['required'],
+            'attribute[sku][*]' => ['required'],
         ];
     }
 }
