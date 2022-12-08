@@ -21,34 +21,16 @@ class SettingController extends Controller
     /**
      * @param Request $request
      */
-    public function update(Request $request)
+    public function update(Request $request, Setting $setting)
     {
-        
-        if ($request->has('site_logo') && ($request->file('site_logo') instanceof UploadedFile)) {
-            
-            if (config('settings.site_logo') != null) {
-                $this->deleteOne(config('settings.site_logo'));
-            }
-            
-            $logo = $this->uploadOne($request->file('site_logo'), 'img');
-            
-            Setting::set('site_logo', $logo);
-            
-        } elseif ($request->has('site_favicon') && ($request->file('site_favicon') instanceof UploadedFile)) {
-            
-            if (config('settings.site_favicon') != null) {
-                $this->deleteOne(config('settings.site_favicon'));
-            }
-            $favicon = $this->uploadOne($request->file('site_favicon'), 'img');
-            Setting::set('site_favicon', $favicon);
-        } else {
-            
-            $keys = $request->except(['_token', '_method']);
-            
-            foreach ($keys as $key => $value) {
-                Setting::set($key, $value);
-            }
+        $keys = $request->except(['_token', '_method']);
+
+        foreach ($keys as $key => $value) {
+            $s = $setting->where('key', $key)->firstOrFail();
+            $s->value = $value;
+            $s->saveOrFail();
         }
+
         return redirect()->route('settings.index')->with('toast_success', 'Update settings Successfuly');
     }
 }

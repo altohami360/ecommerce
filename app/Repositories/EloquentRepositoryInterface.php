@@ -54,4 +54,10 @@ interface EloquentRepositoryInterface
      * @return bool
      */
     public function delete(int $id): bool;
+
+
+    /**
+     * @return int
+     */
+    public function count(): int;
 }

@@ -82,4 +82,12 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         return $this->model->find($id)->delete();
     }
+
+    /**
+     * @return int
+     */
+    public function count(): int
+    {
+        return $this->model->count();
+    }
 }

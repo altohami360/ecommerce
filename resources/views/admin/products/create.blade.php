@@ -20,8 +20,6 @@
                         <form action="{{ route('products.store') }}" method="POST">
                             <div class="tile">
                                 @csrf
-                                <h3 class="tile-title">General Settings</h3>
-                                <hr>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
@@ -39,38 +37,6 @@
                                                         {{ $category->name }} </option>
                                                 @endforeach
                                             </select>
-
-                                            {{-- <div class="tile-body">
-                                                <p>This plugin can be used to convert select element into advanced componant.</p>
-                                                <h4>Demo</h4>
-                                                <select class="form-control select2-hidden-accessible" id="demoSelect" multiple="" tabindex="-1" aria-hidden="true">
-                                                  <optgroup label="Select Cities">
-                                                    <option>Ahmedabad</option>
-                                                    <option>Surat</option>
-                                                    <option>Vadodara</option>
-                                                    <option>Rajkot</option>
-                                                    <option>Bhavnagar</option>
-                                                    <option>Jamnagar</option>
-                                                    <option>Gandhinagar</option>
-                                                    <option>Nadiad</option>
-                                                    <option>Morvi</option>
-                                                    <option>Surendranagar</option>
-                                                    <option>Junagadh</option>
-                                                    <option>Gandhidham</option>
-                                                    <option>Veraval</option>
-                                                    <option>Ghatlodiya</option>
-                                                    <option>Bharuch</option>
-                                                    <option>Anand</option>
-                                                    <option>Porbandar</option>
-                                                    <option>Godhra</option>
-                                                    <option>Navsari</option>
-                                                    <option>Dahod</option>
-                                                    <option>Botad</option>
-                                                    <option>Kapadwanj</option>
-                                                  </optgroup>
-                                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 591.5px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-selection__choice" title="Ahmedabad"><span class="select2-selection__choice__remove" role="presentation">×</span>Ahmedabad</li><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                            </div> --}}
-
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -135,10 +101,6 @@
                                             </label>
                                         </div>
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label>User Avatar</label>
-                                        <input class="form-control" type="file" name="image">
-                                    </div> --}}
                                 </div>
                                 <div class="tile-footer">
                                     <button class="btn btn-primary" type="submit">Save</button>
@@ -146,116 +108,6 @@
                             </div>
                         </form>
                     </div>
-                    {{-- <div class="tab-pane active" id="attributes">
-                        <form action="{{ route('products.store') }}" method="POST">
-                            <div class="tile">
-                                @csrf
-                                <h3 class="tile-title">General Settings</h3>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="parent">Attribute <span class="text-danger">*</span></label>
-                                            <select class="form-control custom-select" id="attribute"
-                                                name="attribute_id">
-                                                <option value="">...</option>
-                                                @foreach ($attributes as $attribute)
-                                                    <option value="{{ $attribute->id }}" @selected(old('attribute_id') == $attribute->id)>
-                                                        {{ $attribute->name }} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="parent">Value <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text"
-                                                name="value" value="{{ old('value') }}" placeholder="Value">
-                                            <select class="form-control custom-select" id="value" name="value">
-                                                <option value="">...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Price <b class="text-danger">*</b></label>
-                                            <input class="form-control" type="text"
-                                                name="price"value="{{ old('price') }}" placeholder="Price">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Quantity <b class="text-danger">*</b></label>
-                                            <input class="form-control" type="text"
-                                                name="quantity"value="{{ old('quantity') }}" placeholder="Quantity">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th> # </th>
-                                                <th> Attribute </th>
-                                                <th> Value </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                        </tbody>            
-                                    </table>
-                                </div>
-                                <div class="tile-footer">
-                                    <button class="btn btn-primary" type="submit">Save</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="images">
-                        <div class="tile">
-                            <h3 class="tile-title">Upload Image</h3>
-                            <hr>
-                            <div class="tile-body">
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form class="text-center dropzone" id="dropzone">
-                                            <div class="dz-message">Drop files here or click to upload</div>
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="">
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="row d-print-none mt-2">
-                                    <div class="col-12 text-right">
-                                        <button class="btn btn-success" type="button" id="uploadButton">
-                                            <i class="fa fa-fw fa-lg fa-upload"></i>Upload Images
-                                        </button>
-                                    </div>
-                                </div>
-
-                                @if (isset($product->images))
-                                    <hr>
-                                    <div class="row">
-                                        @foreach ($product->images as $image)
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <img src="{{ asset('storage/' . $image->full) }}" id="brandLogo"
-                                                            class="img-fluid" alt="img">
-                                                        <a class="card-link float-right text-danger"
-                                                            href="{{ route('admin.products.images.delete', $image->id) }}">
-                                                            <i class="fa fa-fw fa-lg fa-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
                 <div class="tab-pane fade" id="site-logo">
 
@@ -264,50 +116,3 @@
         </div>
     </div>
 @endsection
-
-
-
-@push('scripts')
-    <script type="text/javascript" src="{{ asset('js/plugins/dropzone.js') }}"></script>
-
-    <script>
-        // $(document).ready(function() {
-        //     $('#attribute').change(function() {
-        //         var $value = $('#value');
-        //         var attribute_id = $(this).val();
-        //         var url = "{{ route('values.index', ':id') }}";
-        //         url = url.replace(':id', attribute_id);
-        //         $.ajax({
-        //             url: url,
-        //             success: function(data) {
-        //                 $value.html('<option value="">...</option>');
-        //                 $.each(data, function(id, value) {
-        //                     $value.append('<option value="' + value.id + '">' + value
-        //                         .value + '</option>');
-        //                 });
-        //             }
-        //         })
-        //         $('#value').val('');
-        //     })
-        // })
-        $(document).ready(function() {
-            $('#attribute').change(function() {
-                var $value = $('#value');
-                var attribute_id = $(this).val();
-                var url = "{{ route('values.index', ':id') }}";
-                url = url.replace(':id', attribute_id);
-                $.ajax({
-                    url: url,
-                    success: function(data) {
-                        $value.html('<option value="">...</option>');
-                        $.each(data, function(id, value) {
-                            $value.append('<option value="' + value.id + '">' + value
-                                .value + '</option>');
-                        });
-                    }
-                })
-                $('#value').val('');
-            })
-        })
-    </script>
-@endpush

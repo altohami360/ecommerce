@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>{{ config('app.name') }}</title>
+    <title>{{ $siteSetting['site_name']->value }}</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

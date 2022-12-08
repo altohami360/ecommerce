@@ -13,7 +13,7 @@
                     placeholder="Enter site name"
                     id="site_name"
                     name="site_name"
-                    value="{{ config('settings.site_name') }}"
+                    value="{{ $siteSetting['site_name']->value }}"
                 />
             </div>
             <div class="form-group">
@@ -24,7 +24,7 @@
                     placeholder="Enter site title"
                     id="site_title"
                     name="site_title"
-                    value="{{ config('settings.site_title') }}"
+                    value="{{ $siteSetting['site_title']->value }}"
                 />
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
                     placeholder="Enter store default email address"
                     id="default_email_address"
                     name="default_email_address"
-                    value="{{ config('settings.default_email_address') }}"
+                    value="{{ $siteSetting['default_email_address']->value }}"
                 />
             </div>
             <div class="form-group">
@@ -46,7 +46,7 @@
                     placeholder="Enter store currency code"
                     id="currency_code"
                     name="currency_code"
-                    value="{{ config('settings.currency_code') }}"
+                    value="{{ $siteSetting['currency_code']->value }}"
                 />
             </div>
             <div class="form-group">
@@ -57,7 +57,7 @@
                     placeholder="Enter store currency symbol"
                     id="currency_symbol"
                     name="currency_symbol"
-                    value="{{ config('settings.currency_symbol') }}"
+                    value="{{ $siteSetting['currency_symbol']->value }}"
                 />
             </div>
         </div>

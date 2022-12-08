@@ -24,15 +24,15 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-10">
-                                                <h3 class="tile-title">General Settings</h3>
+                                                {{-- <h3 class="tile-title">General Settings</h3> --}}
                                             </div>
-                                            {{-- 
+                                            
                                                 <div class="col-lg-2">
                                                     <div class="form-group">
                                                         <button class="btn btn-primary" id="add" onclick="event.preventDefault()"><i class="fa fa-plus"></i> Add Attribute Field</button>
                                                     </div>
                                                 </div>
-                                             --}}
+                                            
                                         </div>
 
                                         <div id="form">
@@ -78,10 +78,10 @@
                                                             name="quantity" placeholder="Quantity">
                                                     </div>
                                                 </div>
-                                                <div class="col-md">
-                                                    <button class="btn btn-primary" type="submit">Save</button>
-                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <button class="btn btn-primary" type="submit">Save</button>
                                         </div>
                                     </form>
                                 </div>
