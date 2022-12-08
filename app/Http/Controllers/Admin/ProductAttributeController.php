@@ -49,8 +49,6 @@ class ProductAttributeController extends Controller
      */
     public function store(StoreProductAttributeRequest $request, Product $product)
     {
-        // dd($request->all());
-        
         $attributes = $request->validated();
 
         $attributes['product_id'] = $product->id;

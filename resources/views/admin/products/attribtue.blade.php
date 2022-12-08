@@ -23,72 +23,69 @@
                                     <form action="{{ route('store.product.attribute', $product) }}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-lg-10">
-                                                {{-- <h3 class="tile-title">General Settings</h3> --}}
-                                            </div>
                                             
+                                            {{-- 
+                                                <div class="col-lg-10">
+                                                    <h3 class="tile-title">General Settings</h3>
+                                                </div>
                                                 <div class="col-lg-2">
                                                     <div class="form-group">
                                                         <button class="btn btn-primary" id="add" onclick="event.preventDefault()"><i class="fa fa-plus"></i> Add Attribute Field</button>
                                                     </div>
                                                 </div>
-                                            
+                                             --}}
                                         </div>
 
                                         <div id="form">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="parent">Attribute <span class="text-danger">*</span></label>
-                                                <select class="form-control custom-select" id="first_attribute"
-                                                    name="attributes[0][attribute_id]">
-                                                    <option value="">...</option>
-                                                    @foreach ($attributes as $attribute)
-                                                        <option value="{{ $attribute->id }}">
-                                                            {{ $attribute->name }} </option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="row" id="0">
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="parent">Attribute <span class="text-danger">*</span></label>
+                                                        <select class="form-control custom-select" id="first_attribute"
+                                                            name="attribute_id">
+                                                            <option value="">...</option>
+                                                            @foreach ($attributes as $attribute)
+                                                                <option value="{{ $attribute->id }}">
+                                                                    {{ $attribute->name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="parent">Value <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text"
+                                                            name="value"placeholder="Value">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="parent">Sku <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text"
+                                                            name="sku" placeholder="Sku">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Price <b class="text-danger">*</b></label>
+                                                        <input class="form-control" type="text"
+                                                            name="price" placeholder="Price">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Quantity <b class="text-danger">*</b></label>
+                                                        <input class="form-control" type="text"
+                                                            name="quantity" placeholder="Quantity">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-primary" type="submit">Save</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="parent">Value <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text"
-                                                    name="attributes[0][value]"placeholder="Value">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="parent">Sku <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text"
-                                                    name="attributes[0][sku]" placeholder="Sku">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label>Price <b class="text-danger">*</b></label>
-                                                <input class="form-control" type="text"
-                                                    name="attributes[0][price]" placeholder="Price">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label>Quantity <b class="text-danger">*</b></label>
-                                                <input class="form-control" type="text"
-                                                    name="attributes[0][quantity]" placeholder="Quantity">
-                                            </div>
-                                        </div>
-                                        {{-- <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label>Delete</label>
-                                                <button class="remove_btn" class="btn btn-md btn-danger" onclick="event.preventDefault()"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </div> --}}
-                                    </div>
-                                </div>
-                                <div class="tile-footer">
-                                    <button class="btn btn-primary" type="submit">Save</button>
-                                </div>
                                     </form>
                                 </div>
                             </div>
@@ -108,9 +105,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($productAttribtues as $productAttribute)
+                                            @foreach ($productAttribtues as $key => $productAttribute)
                                                 <tr>
-                                                    <td>{{ $productAttribute->id }}</td>
+                                                    <td>{{ $key + 1 }}</td>
                                                     <td>{{ $productAttribute->attribute->name }}</td>
                                                     <td>{{ $productAttribute->value }}</td>
                                                     <td>{{ $productAttribute->sku }}</td>
