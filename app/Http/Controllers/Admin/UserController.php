@@ -33,9 +33,17 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->all();
+        if ($request->has('searchTerm') && $request->searchTerm != null) {
 
-        return view('admin.users.index', compact('users'));
+            $users = $this->userRepository->search($request->column, $request->searchTerm);
+            $searchTerm = $request->searchTerm;
+        } else {
+
+            $users = $this->userRepository->all();
+            $searchTerm = '';
+        }
+
+        return view('admin.users.index', compact('users', 'searchTerm'));
     }
 
     /**

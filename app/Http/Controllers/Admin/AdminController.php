@@ -21,10 +21,18 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admins = $this->adminRepository->all();
-        return view('admin.admins.index', compact('admins'));
+        if ($request->has('searchTerm') && $request->searchTerm != null) {
+
+            $admins = $this->adminRepository->search($request->column, $request->searchTerm);
+            $searchTerm = $request->searchTerm;
+        } else {
+            $admins = $this->adminRepository->all();
+            $searchTerm = '';
+        }
+        
+        return view('admin.admins.index', compact('admins', 'searchTerm'));
     }
 
     /**

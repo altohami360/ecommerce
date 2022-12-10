@@ -13,7 +13,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,24 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['string'],
+            'category_id' => ['required'],
+            'brand_id' => ['required'],
+            'price' => ['required'],
+            'sale_price' => ['nullable'],
+            'quantity' => ['required', 'numeric'],
+            'featured' => ['boolean'],
+            'status' => ['boolean'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'featured' => isset($this->featured) ?? false,
+            'status' => isset($this->status) ?? false,
+            'slug' => 'slug',
+        ]);
     }
 }

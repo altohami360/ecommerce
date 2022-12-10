@@ -1,13 +1,13 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{{ auth()->user()->avatar }}" alt="User Image"> 
-        {{-- https://via.placeholder.com/40.png/aaa --}}
+      <div style="margin-bottom: -1rem" class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{{ auth()->user()->avatar }}" alt="User Image"> 
         <div>
           <p class="app-sidebar__user-name">{{ auth()->user()->name }}</p>
           <p class="app-sidebar__user-designation">Admin</p>
         </div>
       </div>
       <ul class="app-menu">
+        <li class="card-body"><a class="btn btn-outline-primary" href="{{ route('home') }}" target="_blank"><i class="app-menu__icon fa fa-external-link"></i>Store</a></li>
         <li><a class="app-menu__item" href="{{ route('dashboard') }}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
         <li><a class="app-menu__item" href="{{ route('users.index') }}"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Customers</span></a></li>
         <li><a class="app-menu__item" href="{{ route('admins.index') }}"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">administrators</span></a></li>

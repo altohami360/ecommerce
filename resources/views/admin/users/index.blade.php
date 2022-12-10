@@ -5,63 +5,36 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-
             <div class="tile shadow">
-
                 <div class="row mb-3">
-
                     <div class="col-md-12">
-
                         <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create New
                             Customer</a>
-
                     </div>
-
-                </div><!-- end of row -->
-
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input type="text" id="data-table-search" class="form-control" autofocus=""
-                                placeholder="Search">
+                </div>
+                <form action="{{ route('users.index') }}" method="get">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control"  name="searchTerm" value="{{ $searchTerm }}" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <select class="form-control custom-select" name="column">
+                                            <option value="name">Name</option>
+                                            <option value="email">Email</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
                         </div>
                     </div>
-                    {{-- <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-control" id="demoSelect">
-                                    <optgroup label="Select Cities">
-                                        <option>Ahmedabad</option>
-                                        <option>Surat</option>
-                                        <option>Vadodara</option>
-                                        <option>Rajkot</option>
-                                        <option>Bhavnagar</option>
-                                        <option>Jamnagar</option>
-                                        <option>Gandhinagar</option>
-                                        <option>Nadiad</option>
-                                        <option>Morvi</option>
-                                        <option>Surendranagar</option>
-                                        <option>Junagadh</option>
-                                        <option>Gandhidham</option>
-                                        <option>Veraval</option>
-                                        <option>Ghatlodiya</option>
-                                        <option>Bharuch</option>
-                                        <option>Anand</option>
-                                        <option>Porbandar</option>
-                                        <option>Godhra</option>
-                                        <option>Navsari</option>
-                                        <option>Dahod</option>
-                                        <option>Botad</option>
-                                        <option>Kapadwanj</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </div> --}}
-
-                </div><!-- end of row -->
-
+                </form>
                 <div class="row">
-
                     <div class="col-md-12">
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>

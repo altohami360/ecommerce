@@ -9,6 +9,7 @@ use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -26,11 +27,21 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->categoryRepository->all(['*'], ['parent']);
+        if ($request->has('searchTerm') && $request->searchTerm != null) {
 
-        return view('admin.categories.index', compact('categories'));
+            $categories = $this->categoryRepository->search($request->column, $request->searchTerm);
+            $searchTerm = $request->searchTerm;
+        } else {
+
+            $categories = $this->categoryRepository->all(['*'], ['parent']);
+            $searchTerm = '';
+        }
+
+       
+
+        return view('admin.categories.index', compact('categories', 'searchTerm'));
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Requests\Attribute\StoreAttributeRequest;
 use App\Http\Requests\Attribute\UpdateAttributeRequest;
 use App\Models\Attribute;
 use App\Repositories\AttributeRepositoryInterface;
+use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
@@ -23,11 +24,17 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $attributes = $this->attributerepository->all();
-        
-        return view('admin.attributes.index', compact('attributes'));
+        if ($request->has('searchTerm') && $request->searchTerm != null) {
+            $attributes = $this->attributerepository->search($request->column, $request->searchTerm);
+            $searchTerm = $request->searchTerm;
+        } else {
+            $attributes = $this->attributerepository->all();
+            $searchTerm = '';
+        }
+
+        return view('admin.attributes.index', compact('attributes', 'searchTerm'));
     }
 
     /**

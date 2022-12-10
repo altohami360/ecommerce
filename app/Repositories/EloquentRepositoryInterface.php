@@ -21,6 +21,17 @@ interface EloquentRepositoryInterface
     );
 
     /**
+     * @param string $column
+     * @param string $q
+     * 
+     * @return mixed
+     */
+    public function search(
+        string $column,
+        string $searchTerm
+    );
+
+    /**
      * @param int $id
      * @return mixed
      */

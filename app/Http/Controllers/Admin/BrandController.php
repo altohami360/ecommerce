@@ -8,6 +8,7 @@ use App\Http\Requests\Brand\UpdateBrandRequest;
 use App\Models\Brand;
 use App\Repositories\BrandRepositoryInterface;
 use App\Traits\UploadAble;
+use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
@@ -25,11 +26,19 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $brands = $this->brandRepository->all();
+        if ($request->has('searchTerm') && $request->searchTerm != null) {
 
-        return view('admin.brands.index', compact('brands'));
+            $brands = $this->brandRepository->search($request->column, $request->searchTerm);
+            $searchTerm = $request->searchTerm;
+        } else {
+
+            $brands = $this->brandRepository->all();
+            $searchTerm = '';
+        }
+
+        return view('admin.brands.index', compact('brands', 'searchTerm'));
     }
 
     /**

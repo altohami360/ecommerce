@@ -1,11 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Site\HomeController;
 use Illuminate\Support\Facades\Route;
-use RealRashid\SweetAlert\Facades\Alert;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +14,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 |
 */
 
-Route::view('/', 'welcome');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 require __DIR__.'/admin.php';
 

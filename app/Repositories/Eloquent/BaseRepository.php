@@ -36,6 +36,16 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * @param string $column
+     * @param string $q
+     * 
+     * @return mixed
+     */
+    public function search($column, $searchTerm) {
+        return $this->model->where($column, 'like', "%{$searchTerm}%")->get();
+    }
+
+    /**
      * @param int $id
      * @return mixed
      */

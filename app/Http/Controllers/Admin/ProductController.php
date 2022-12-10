@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
 use App\Repositories\AttributeRepositoryInterface;
 use App\Repositories\BrandRepositoryInterface;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
+use App\Services\AppendAttribute;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -34,42 +37,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productRepository->all(['*'],  ['attributes', 'brand', 'categories', 'images']);
-        $attributesModel = $this->attributeRepository->all();
+        if ($request->has('searchTerm') && $request->searchTerm != null) {
 
+            $products = $this->productRepository->search($request->column, $request->searchTerm);
+            $searchTerm = $request->searchTerm;
+        } else {
 
-        $products = $products->map(function ($product) use ($attributesModel) {
+            $products = $this->productRepository->all(['*'],  ['attributes', 'brand', 'categories', 'images']);
+            $searchTerm = '';
+        }
 
-            $attributes = $product->attributes->groupBy('attribute_id');
-            // $attributesModel = $this->attributeRepository->all();
-
-            $array = collect();
-            foreach ($attributesModel as $attribute) {
-                foreach ($attributes as $key => $a) {
-
-                    if ($key == $attribute['id']) {
-                        $array->push(
-                            collect([
-                                'attribute' => collect([
-                                    'name' => $attribute['name'],
-                                    'value' => $a,
-                                ])
-                            ])
-                        );
-                    }
-                }
-            }
-            // return ($array);
-
-            $product['attributes'] = $array;
-            // $product['attributes'] = $this->getProductAttribute($product, $attributesModel);
-
-            return $product;
-        });
-
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products', 'searchTerm'));
     }
 
     public function getProductAttribute($product, $attributesModel)
@@ -142,7 +122,17 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $brands = $this->brandRepository->all();
+        $categories = $this->categoryRepository->all();
+        $attributes = $this->attributeRepository->all();
+        $product = $this->productRepository->findOneById($id);
+
+        // refactoring in future 0_*
+        // *************************
+        $productCate = $product->categories()->get();
+        $categories = (new AppendAttribute())->AppendCheckedToCollection($categories, $productCate);
         //
+        return view('admin.products.edit', compact('brands', 'categories', 'attributes', 'product', 'productCate'));
     }
 
     /**
@@ -152,9 +142,17 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
+        $this->productRepository->update($id, $request->validated());
+
+        $product = $this->productRepository->findOneById($id);
+
+        // refactoring in future 0_*
+        // *************************
+        $product->categories()->sync($request->category_id);
         //
+        return to_route('products.index')->with('toast_success', 'Update Product Successfuly');
     }
 
     /**

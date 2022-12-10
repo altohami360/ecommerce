@@ -14,14 +14,28 @@
                         </a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input type="text" id="data-table-search" class="form-control" autofocus=""
-                                placeholder="Search">
+                <form action="{{ route('products.index') }}" method="get">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control"  name="searchTerm" value="{{ $searchTerm }}" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <select class="form-control custom-select" name="column">
+                                            <option value="name">Name</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
+                
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-hover table-bordered" id="sampleTable">
@@ -103,7 +117,7 @@
                                             <a class="btn btn-info btn-sm"
                                             href="">show</a>
                                             <a class="btn btn-success btn-sm"
-                                            href="">Edit</a>
+                                            href="{{ route('products.edit', $product->id) }}">Edit</a>
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                             <button class="btn btn-secondary btn-sm dropdown-toggle" id="btnGroupDrop4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             
