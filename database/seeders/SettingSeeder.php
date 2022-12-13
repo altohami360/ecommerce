@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
     protected $settings = [
         [
             'key'                       =>  'site_name',
-            'value'                     =>  'E-Commerce Application',
+            'value'                     =>  'Larastore',
         ],
         [
             'key'                       =>  'site_title',

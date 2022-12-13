@@ -41,8 +41,8 @@ class BaseRepository implements EloquentRepositoryInterface
      * 
      * @return mixed
      */
-    public function search($column, $searchTerm) {
-        return $this->model->where($column, 'like', "%{$searchTerm}%")->get();
+    public function search($column, $searchTerm, $relations = []) {
+        return $this->model->with($relations)->where($column, 'like', "%{$searchTerm}%")->get();
     }
 
     /**

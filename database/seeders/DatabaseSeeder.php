@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\OrderItem;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,7 +25,9 @@ class DatabaseSeeder extends Seeder
             AttributeValueSeeder::class,
             BrandSeeder::class,
             ProductSeeder::class,
-            ProductAttributeSeeder::class
+            ProductAttributeSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class
         ]);
     }
 }

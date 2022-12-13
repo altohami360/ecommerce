@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrderItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:admin'], 'namespace' => 'App\Http\Controllers\Admin'], function () {
@@ -31,7 +32,10 @@ Route::group(['middleware' => ['auth:admin'], 'namespace' => 'App\Http\Controlle
 
         Route::resource('attributes', AttributeController::class)->except('show');
 
-        Route::get('settings/index', [SettingController::class, 'index'])->name('settings.index');
-        Route::PUT('settings/update', [SettingController::class, 'update'])->name('settings.update');
+        Route::get('orders/{order:order_number}/orderItems', [OrderItemController::class, 'index'])->name('order.items');
+        Route::resource('orders', OrderController::class);
+
+        Route::get('settings/index', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+        Route::PUT('settings/update', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
     });
 });

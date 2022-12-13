@@ -28,7 +28,8 @@ interface EloquentRepositoryInterface
      */
     public function search(
         string $column,
-        string $searchTerm
+        string $searchTerm,
+        array $relations = []
     );
 
     /**
