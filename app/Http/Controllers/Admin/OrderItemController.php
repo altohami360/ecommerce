@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Repositories\OrderItemsRepositoryInterface;
-use App\Services\DataFormate;
 use Illuminate\Http\Request;
+use App\Services\DataFormate;
+use App\Http\Controllers\Controller;
+use App\Repositories\OrderItemsRepositoryInterface;
 
 class OrderItemController extends Controller
 {

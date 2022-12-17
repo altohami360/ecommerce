@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Brand\StoreBrandRequest;
-use App\Http\Requests\Brand\UpdateBrandRequest;
 use App\Models\Brand;
-use App\Repositories\BrandRepositoryInterface;
 use App\Traits\UploadAble;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Brand\StoreBrandRequest;
+use App\Repositories\BrandRepositoryInterface;
+use App\Http\Requests\Brand\UpdateBrandRequest;
 
 class BrandController extends Controller
 {

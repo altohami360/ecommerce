@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Traits\UploadAble;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repositories\CategoryRepositoryInterface;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Repositories\CategoryRepositoryInterface;
-use App\Traits\UploadAble;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {

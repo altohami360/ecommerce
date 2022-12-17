@@ -57,12 +57,14 @@ class BaseRepository implements EloquentRepositoryInterface
 
     /**
      * @param int $id
+     * @param array $relations
      * @return mixed
      */
-    public function findById(
-        int $id
+    public function findByIdWith(
+        int $id,
+        array $relations = ['*']
     ) {
-        return $this->model->whereId($id)->get();
+        return $this->model->with($relations)->whereId($id)->first();
     }
 
     /**

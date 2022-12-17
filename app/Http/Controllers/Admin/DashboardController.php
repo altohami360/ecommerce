@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\ProductRepositoryInterface;
-use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repositories\UserRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
 
 class DashboardController extends Controller
 {

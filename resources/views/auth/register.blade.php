@@ -1,43 +1,44 @@
 @extends('layouts.auth')
 
 @section('content')
-    <section class="login-content">
-        <div class="logo">
-            <h3 class="login-head">Rigester</h3>
-        </div>
+    <div class="row pt-lg-5 justify-content-md-center">
+        <aside class="col-lg-4 col-md-6  align-middle"> 
+            <div class="card"> 
+                <div class="card-body"> 
+                    <h4 class="mb-4">Register</h4> 
+                    
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <span class="text-danger">{{ $error }}.</span><br>
+                    @endforeach
+                </div>
+                @endif
 
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <span class="text-danger">{{ $error }}.</span><br>
-            @endforeach
-        </div>
-        @endif
-
-        <div class="login-box width-register">
-            <form class="login-form" action="{{ route('register') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label class="control-label">Name</label>
-                    <input class="form-control" type="text" name="name" placeholder="Name" autofocus="">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Email</label>
-                    <input class="form-control" type="text" name="email" placeholder="Email" autofocus="">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <input class="form-control" type="password" name="password" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <input class="form-control" type="password" name="password_confirmation" placeholder="Password">
-                </div>
-                <div class="form-group btn-container">
-                    <button type="submit" class="btn btn-primary btn-block"><i
-                            class="fa fa-sign-in fa-lg fa-fw"></i>Rigester</button>
-                </div>
-            </form>
-        </div>
-    </section>
+                    <form action="{{ route('register') }}" method="POST">
+                        @csrf 
+                        <div class="mb-3"> 
+                            <label class="form-label">Name</label> 
+                            <input name="name" class="form-control" type="name" value="{{ old('name') }}"> 
+                        </div>  
+                        <div class="mb-3"> 
+                            <label class="form-label">Email</label> 
+                            <input name="email" class="form-control" placeholder="ex. name@gmail.com" type="email" value="{{ old('email') }}"> 
+                        </div> 
+                        <div class="mb-3"> 
+                            <label class="form-label">Password</label> 
+                            <input name="password" class="form-control" placeholder="******" type="password"> 
+                        </div>
+                        <div class="mb-3"> 
+                            <label class="form-label">Password</label> 
+                            <input name="password_confirmation" class="form-control" placeholder="******" type="password"> 
+                        </div>
+                        <button class="btn w-100 btn-primary" type="submit"> Login </button> 
+                    </form> 
+                    <hr>
+                    <a href="{{ route('login') }}" class="btn w-100 btn-light">I have accaunt</a> 
+                </div> 
+            </div> 
+        </aside>
+    </div>
 @endsection

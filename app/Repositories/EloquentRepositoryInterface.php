@@ -42,10 +42,12 @@ interface EloquentRepositoryInterface
 
     /**
      * @param int $id
+     * @param array $relations
      * @return mixed
      */
-    public function findById(
-        int $id
+    public function findByIdWith(
+        int $id,
+        array $relations = ['*']
     );
 
     /**

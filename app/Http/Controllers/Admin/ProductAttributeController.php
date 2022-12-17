@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductAttributeRequest;
-use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\ProductAttribute;
-use App\Repositories\AttributeRepositoryInterface;
-use App\Repositories\ProductAttributeRepositoryInterface;
+use App\Http\Controllers\Controller;
 use App\Repositories\ProductRepositoryInterface;
-use Illuminate\Http\Request;
+use App\Repositories\AttributeRepositoryInterface;
+use App\Http\Requests\Product\StoreProductAttributeRequest;
+use App\Repositories\ProductAttributeRepositoryInterface;
 
 class ProductAttributeController extends Controller
 {

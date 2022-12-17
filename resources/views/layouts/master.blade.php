@@ -38,9 +38,9 @@
 
 <body class="app sidebar-mini">
     <!-- Navbar-->
-    @include('layouts.comopnents.header')
+    @include('layouts.components.header')
     <!-- Sidebar menu-->
-    @include('layouts.comopnents.aside')
+    @include('layouts.components.aside')
 
     <main class="app-content">
         

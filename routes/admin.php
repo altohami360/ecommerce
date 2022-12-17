@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:admin'], 'namespace' => 'App\Http\Controllers\Admin'], function () {
 
+    Route::redirect('/admin', 'admin/dashboard');
+    
     Route::prefix('admin')->group(function () {
 
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -19,9 +21,9 @@ Route::group(['middleware' => ['auth:admin'], 'namespace' => 'App\Http\Controlle
             Route::post('attribtues', [ProductAttributeController::class, 'store'])->name('store.product.attribute');
             Route::delete('attribtues/{productAttribute}', [ProductAttributeController::class, 'destroy'])->name('delete.product.attribute');
 
-            Route::get('images', [ProductImageController::class, 'index'])->name('product.image');
-            Route::post('images', [ProductImageController::class, 'store'])->name('store.product.image');
-            Route::delete('images/{image}', [ProductImageController::class, 'destroy'])->name('delete.product.image');
+            Route::get('images', [\App\Http\Controllers\Admin\ProductImageController::class, 'index'])->name('product.image');
+            Route::post('images', [\App\Http\Controllers\Admin\ProductImageController::class, 'store'])->name('store.product.image');
+            Route::delete('images/{image}', [\App\Http\Controllers\Admin\ProductImageController::class, 'destroy'])->name('delete.product.image');
         });
 
         Route::resource('products', ProductController::class);

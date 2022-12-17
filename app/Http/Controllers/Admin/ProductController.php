@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
-use App\Models\Product;
-use App\Repositories\AttributeRepositoryInterface;
-use App\Repositories\BrandRepositoryInterface;
-use App\Repositories\CategoryRepositoryInterface;
-use App\Repositories\ProductRepositoryInterface;
-use App\Services\AppendAttribute;
 use Illuminate\Http\Request;
+use App\Services\AppendAttribute;
+use App\Http\Controllers\Controller;
+use App\Repositories\BrandRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\CategoryRepositoryInterface;
+use App\Http\Requests\Product\StoreProductRequest;
+use App\Repositories\AttributeRepositoryInterface;
+use App\Http\Requests\Product\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -45,35 +44,11 @@ class ProductController extends Controller
             $searchTerm = $request->searchTerm;
         } else {
 
-            $products = $this->productRepository->all(['*'],  ['attributes', 'brand', 'categories', 'images']);
+            $products = $this->productRepository->all(['*'],  ['brand', 'categories']);
             $searchTerm = '';
         }
 
         return view('admin.products.index', compact('products', 'searchTerm'));
-    }
-
-    public function getProductAttribute($product, $attributesModel)
-    {
-        $attributes = $product->productsAttributes->groupBy('attribute_id');
-        // $attributesModel = $this->attributeRepository->all();
-
-        $array = collect();
-        foreach ($attributesModel as $attribute) {
-            foreach ($attributes as $key => $a) {
-
-                if ($key == $attribute['id']) {
-                    $array->push(
-                        collect([
-                            'attribute' => collect([
-                                'name' => $attribute['name'],
-                                'value' => $a,
-                            ])
-                        ])
-                    );
-                }
-            }
-        }
-        return ($array);
     }
 
     /**

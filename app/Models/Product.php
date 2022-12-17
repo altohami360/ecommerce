@@ -45,6 +45,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function cover()
+    {
+        return $this->hasMany(ProductImage::class)->first();
+    }
+
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);

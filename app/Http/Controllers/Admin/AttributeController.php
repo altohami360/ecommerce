@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Attribute;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\AttributeRepositoryInterface;
 use App\Http\Requests\Attribute\StoreAttributeRequest;
 use App\Http\Requests\Attribute\UpdateAttributeRequest;
-use App\Models\Attribute;
-use App\Repositories\AttributeRepositoryInterface;
-use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {

@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductImageRequest;
 use App\Models\Product;
-use App\Models\ProductImage;
-use App\Repositories\ProductImageRepositoryInterface;
-use App\Repositories\ProductRepositoryInterface;
 use App\Traits\UploadAble;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use App\Models\ProductImage;
+use App\Http\Controllers\Controller;
+use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\ProductImageRepositoryInterface;
+use App\Http\Requests\Product\StoreProductImageRequest;
 
 class ProductImageController extends Controller
 {

@@ -1,45 +1,45 @@
 @extends('layouts.auth')
 
 @section('content')
-    <section class="login-content">
-        <div class="logo">
-            <h3 class="login-head"></i>Login</h3>
-        </div>
-        
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <span class="text-danger">{{ $error }}.</span><br>
-            @endforeach
-        </div>
-        @endif
 
-        <div class="login-box width-login">
-            <form class="login-form" action="{{ route('login') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label class="control-label">Email</label>
-                    <input class="form-control" type="text" value="admin@admin.com" name="email" placeholder="Email" autofocus="">
+    <div class="row pt-lg-5 justify-content-md-center">
+        <aside class="col-lg-4 col-md-6  align-middle"> 
+            <div class="card"> 
+                <div class="card-body"> 
+                    <h4 class="mb-4">Login</h4> 
+                    
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <span class="text-danger">{{ $error }}.</span><br>
+                    @endforeach
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <input class="form-control" type="password" value="password" name="password" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <div class="utility">
-                        <div class="animated-checkbox">
-                            <label>
-                                <input type="checkbox" name="remmber"><span class="label-text">Remmber Me</span>
-                            </label>
+                @endif
+
+                    <form action="{{ route('login') }}" method="POST">
+                        @csrf 
+                        <div class="mb-3"> 
+                            <label class="form-label">Email</label> 
+                            <input name="email" class="form-control" placeholder="ex. name@gmail.com" type="email" value="{{ old('email') }}"> 
+                        </div>  
+                        <div class="mb-3"> 
+                            <label class="form-label">Password</label> 
+                            <a class="float-end" href="#">Forgot?</a> 
+                            <input name="password" class="form-control" placeholder="******" type="password"> 
                         </div>
-                        <p class="semibold-text mb-2"><a href="{{ route('password.request') }}" data-toggle="flip">Forgot
-                                Password ?</a></p>
-                    </div>
-                </div>
-                <div class="form-group btn-container">
-                    <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>LOGIN</button>
-                </div>
-            </form>
-        </div>
-    </section>
+                        <div class="mb-3"> 
+                            <label class="form-check"> 
+                                <input class="form-check-input" type="checkbox" value="" checked=""> 
+                                <span class="form-check-label"> Remember </span> 
+                            </label> 
+                        </div> 
+                        <button class="btn w-100 btn-primary" type="submit"> Login </button> 
+                    </form> 
+                    <hr>
+                    <a href="{{ route('register') }}" class="btn w-100 btn-light">Create new accaunt</a> 
+                </div> 
+            </div> 
+        </aside>
+    </div>
+    
 @endsection

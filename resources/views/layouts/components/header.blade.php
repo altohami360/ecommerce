@@ -29,7 +29,7 @@
               <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
               <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
               <li>
-                  <form action="{{ route('logout') }}" method="post">
+                  <form action="{{ route('admin.logout') }}" method="post">
                       @csrf
                       <button type="submit" class="dropdown-item"><i class="fa fa-sign-out fa-lg"></i> Logout</button>
                   </form>
