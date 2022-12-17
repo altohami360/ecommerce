@@ -34,26 +34,39 @@
                         <span class="text-muted"></span> 
                     </div> 
                     <p>{{ $product->description }}</p>
-                    <div class="row"> 
-                        <div class="col-md-3 mb-3"> 
-                            <select class="form-select"> 
-                                <option selected="">Select size</option> 
-                                <option>Small</option> 
-                                <option>Medium</option> 
-                                <option>Large</option> 
-                            </select> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md mb-3"> 
-                            <div class="mt-2"> 
-                                <label class="form-check form-check-inline"> 
-                                    <input class="form-check-input" type="radio" name="choose_11" value="option1"> 
-                                    <span class="form-check-label">Red</span> 
-                                </label> 
+                    @foreach ($product->my_attributes as $attribute)
+                        <hr>
+                        @if ($attribute['type'] == 'select')
+                        {{ $attribute['name'] }}
+                            <div class="row"> 
+                                <div class="col-md-3 mb-3"> 
+                                    <select class="form-select"> 
+                                        <option selected="">Select {{ $attribute['name'] }}</option>
+                                        @foreach ($attribute['value'] as $i)
+                                            <option value="">{{ $i->value }}</option>
+                                        @endforeach 
+                                    </select> 
+                                </div>
+                            </div>
+                        @endif
+                        @if ($attribute['type'] == 'radio')
+                            {{ $attribute['name'] }}
+                            <div class="row">
+                                <div class="col-md mb-3"> 
+                                    <div class="mt-2"> 
+                                        @foreach ($attribute['value'] as $key => $i)
+                                            <label class="form-check form-check-inline"> 
+                                                <input class="form-check-input" type="radio" name="choose_11" value="{{ $i->value }}"> 
+                                                <span class="form-check-label">
+                                                    {{ $i->value }}
+                                                </span>
+                                            </label> 
+                                        @endforeach 
+                                    </div> 
+                                </div> 
                             </div> 
-                        </div> 
-                    </div> 
+                        @endif
+                    @endforeach
                     <a href="#" class="btn btn-primary"> 
                         <i class="me-2 fa fa-shopping-basket"></i> Add to cart 
                     </a> 

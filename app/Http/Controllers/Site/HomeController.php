@@ -33,18 +33,21 @@ class HomeController extends Controller
     {
         $product = $this->productRepository->findByIdWith($product->id, ['images', 'attributes', 'brand', 'categories', 'images']);
 
-        $attribute = $this->attributeRepository->all();
+        $attributesModel = $this->attributeRepository->all();
 
-        $p = $this->getProductAttribute($product, $attribute);
-        return response($p);
+        $product['my_attributes'] = $this->getProductAttribute($product);
+
+        // return response($product);
 
         return view('product', compact('product'));
     }
 
-    public function getProductAttribute($product, $attributesModel)
+    public function getProductAttribute($product)
     {
-        $attributes = $product->productsAttributes->groupBy('attribute_id');
-        // $attributesModel = $this->attributeRepository->all();
+        // dd($product);
+        $attributes = $product->attributes->groupBy('attribute_id');
+
+        $attributesModel = $this->attributeRepository->all();
 
         $array = collect();
         foreach ($attributesModel as $attribute) {
@@ -52,12 +55,11 @@ class HomeController extends Controller
 
                 if ($key == $attribute['id']) {
                     $array->push(
-                        collect([
-                            'attribute' => collect([
+                        [
                                 'name' => $attribute['name'],
+                                'type' => $attribute['frontend_type'],
                                 'value' => $a,
-                            ])
-                        ])
+                        ]
                     );
                 }
             }
